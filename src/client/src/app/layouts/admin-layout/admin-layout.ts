@@ -42,6 +42,14 @@ import { AuthService } from '../../core/services/auth.service';
             <mat-icon matListItemIcon>bar_chart</mat-icon>
             <span>{{ 'nav.reports' | translate }}</span>
           </a>
+          <a mat-list-item routerLink="/admin/users" routerLinkActive="active">
+            <mat-icon matListItemIcon>manage_accounts</mat-icon>
+            <span>{{ 'nav.users' | translate }}</span>
+          </a>
+          <a mat-list-item routerLink="/admin/roles" routerLinkActive="active">
+            <mat-icon matListItemIcon>admin_panel_settings</mat-icon>
+            <span>{{ 'nav.roles' | translate }}</span>
+          </a>
           <a mat-list-item routerLink="/admin/settings" routerLinkActive="active">
             <mat-icon matListItemIcon>settings</mat-icon>
             <span>{{ 'nav.settings' | translate }}</span>

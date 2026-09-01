@@ -1,7 +1,15 @@
+using CustomerSupport.Domain.Entities;
+using CustomerSupport.Domain.Interfaces;
+using CustomerSupport.Infrastructure.Identity;
+using CustomerSupport.Infrastructure.Persistence;
+using CustomerSupport.Infrastructure.Persistence.Interceptors;
+using CustomerSupport.Infrastructure.Repositories;
+using CustomerSupport.Infrastructure.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using CustomerSupport.Infrastructure.Persistence;
 
 namespace CustomerSupport.Infrastructure;
 
@@ -11,9 +19,33 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddDbContext<AppDbContext>(options =>
-            options.UseSqlServer(
-                configuration.GetConnectionString("DefaultConnection")));
+        services.AddScoped<AuditInterceptor>();
+
+        services.AddDbContext<AppDbContext>((serviceProvider, options) =>
+            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
+                   .AddInterceptors(serviceProvider.GetRequiredService<AuditInterceptor>()));
+
+        services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
+        {
+            options.Password.RequireDigit = true;
+            options.Password.RequireLowercase = true;
+            options.Password.RequireUppercase = true;
+            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequiredLength = 8;
+            options.User.RequireUniqueEmail = true;
+        })
+        .AddEntityFrameworkStores<AppDbContext>()
+        .AddDefaultTokenProviders();
+
+        services.AddHttpContextAccessor();
+        services.AddScoped<ICurrentUserService, CurrentUserService>();
+        services.AddSingleton<IDateTimeService, DateTimeService>();
+        services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<ICustomerRepository, CustomerRepository>();
+        services.AddScoped<ITicketRepository, TicketRepository>();
+
+        services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+        services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
 
         return services;
     }
