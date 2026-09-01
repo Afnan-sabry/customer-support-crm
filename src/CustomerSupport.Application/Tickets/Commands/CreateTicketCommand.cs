@@ -28,7 +28,7 @@ public class CreateTicketCommandHandler : IRequestHandler<CreateTicketCommand, T
     {
         var newStatus = await _context.TicketStatuses
             .FirstOrDefaultAsync(s => s.Name == "New", cancellationToken)
-            ?? throw new InvalidOperationException("Default ticket status 'New' not found.");
+            ?? throw new KeyNotFoundException("Default ticket status 'New' not found.");
 
         var ticketNumber = await _ticketRepository.GenerateTicketNumberAsync(cancellationToken);
 
