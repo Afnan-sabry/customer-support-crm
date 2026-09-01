@@ -31,6 +31,7 @@
     "login": "Login",
     "logout": "Logout",
     "email": "Email",
-    "password": "Password"
+    "password": "Password",
+    "loginSubtitle": "Sign in to your account"
   }
 }
