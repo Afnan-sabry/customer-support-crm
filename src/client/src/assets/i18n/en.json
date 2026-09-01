@@ -10,7 +10,9 @@
     "customers": "Customers",
     "knowledgeBase": "Knowledge Base",
     "reports": "Reports",
-    "settings": "Settings"
+    "settings": "Settings",
+    "users": "Users",
+    "roles": "Roles"
   },
   "common": {
     "save": "Save",
@@ -33,5 +35,33 @@
     "email": "Email",
     "password": "Password",
     "loginSubtitle": "Sign in to your account"
+  },
+  "users": {
+    "title": "Users",
+    "createUser": "Create User",
+    "editUser": "Edit User",
+    "email": "Email",
+    "fullName": "Full Name",
+    "fullNameAr": "Full Name (Arabic)",
+    "phone": "Phone",
+    "password": "Password",
+    "language": "Preferred Language",
+    "roles": "Roles",
+    "active": "Active",
+    "inactive": "Inactive",
+    "deactivate": "Deactivate",
+    "deactivateConfirm": "Are you sure you want to deactivate this user?"
+  },
+  "roles": {
+    "title": "Roles",
+    "createRole": "Create Role",
+    "editRole": "Edit Role",
+    "name": "Name",
+    "nameAr": "Name (Arabic)",
+    "system": "System",
+    "permissions": "Permissions",
+    "managePermissions": "Manage Permissions",
+    "assignPermissions": "Assign Permissions",
+    "module": "Module"
   }
 }

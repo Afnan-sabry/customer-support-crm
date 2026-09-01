@@ -10,7 +10,9 @@
     "customers": "العملاء",
     "knowledgeBase": "قاعدة المعرفة",
     "reports": "التقارير",
-    "settings": "الإعدادات"
+    "settings": "الإعدادات",
+    "users": "المستخدمون",
+    "roles": "الأدوار"
   },
   "common": {
     "save": "حفظ",
@@ -33,5 +35,33 @@
     "email": "البريد الإلكتروني",
     "password": "كلمة المرور",
     "loginSubtitle": "سجل دخولك إلى حسابك"
+  },
+  "users": {
+    "title": "المستخدمون",
+    "createUser": "إنشاء مستخدم",
+    "editUser": "تعديل مستخدم",
+    "email": "البريد الإلكتروني",
+    "fullName": "الاسم الكامل",
+    "fullNameAr": "الاسم الكامل (عربي)",
+    "phone": "الهاتف",
+    "password": "كلمة المرور",
+    "language": "اللغة المفضلة",
+    "roles": "الأدوار",
+    "active": "نشط",
+    "inactive": "غير نشط",
+    "deactivate": "إلغاء التفعيل",
+    "deactivateConfirm": "هل أنت متأكد من إلغاء تفعيل هذا المستخدم؟"
+  },
+  "roles": {
+    "title": "الأدوار",
+    "createRole": "إنشاء دور",
+    "editRole": "تعديل دور",
+    "name": "الاسم",
+    "nameAr": "الاسم (عربي)",
+    "system": "نظام",
+    "permissions": "الصلاحيات",
+    "managePermissions": "إدارة الصلاحيات",
+    "assignPermissions": "تعيين الصلاحيات",
+    "module": "الوحدة"
   }
 }

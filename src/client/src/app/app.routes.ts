@@ -8,6 +8,14 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      {
+        path: 'users',
+        loadChildren: () => import('./features/users/users.routes').then(m => m.usersRoutes)
+      },
+      {
+        path: 'roles',
+        loadChildren: () => import('./features/roles/roles.routes').then(m => m.rolesRoutes)
+      },
     ]
   },
   {
