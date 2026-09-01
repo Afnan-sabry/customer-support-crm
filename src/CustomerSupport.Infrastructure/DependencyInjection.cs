@@ -2,6 +2,7 @@ using CustomerSupport.Domain.Entities;
 using CustomerSupport.Domain.Interfaces;
 using CustomerSupport.Infrastructure.Identity;
 using CustomerSupport.Infrastructure.Persistence;
+using CustomerSupport.Infrastructure.Persistence.Interceptors;
 using CustomerSupport.Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -17,9 +18,11 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddDbContext<AppDbContext>(options =>
-            options.UseSqlServer(
-                configuration.GetConnectionString("DefaultConnection")));
+        services.AddScoped<AuditInterceptor>();
+
+        services.AddDbContext<AppDbContext>((serviceProvider, options) =>
+            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
+                   .AddInterceptors(serviceProvider.GetRequiredService<AuditInterceptor>()));
 
         services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
         {
