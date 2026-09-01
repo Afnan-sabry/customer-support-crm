@@ -63,5 +63,28 @@
     "managePermissions": "إدارة الصلاحيات",
     "assignPermissions": "تعيين الصلاحيات",
     "module": "الوحدة"
+  },
+  "customers": {
+    "title": "العملاء",
+    "createCustomer": "إنشاء عميل",
+    "editCustomer": "تعديل عميل",
+    "customerDetail": "تفاصيل العميل",
+    "name": "الاسم",
+    "nameAr": "الاسم (عربي)",
+    "email": "البريد الإلكتروني",
+    "phone": "الهاتف",
+    "company": "الشركة",
+    "companyAr": "الشركة (عربي)",
+    "address": "العنوان",
+    "active": "نشط",
+    "inactive": "غير نشط",
+    "deleteConfirm": "هل أنت متأكد من حذف هذا العميل؟",
+    "contacts": "جهات الاتصال",
+    "addContact": "إضافة جهة اتصال",
+    "contactName": "اسم جهة الاتصال",
+    "contactNameAr": "اسم جهة الاتصال (عربي)",
+    "contactTitle": "المسمى الوظيفي",
+    "primaryContact": "أساسي",
+    "noContacts": "لا توجد جهات اتصال بعد"
   }
 }
