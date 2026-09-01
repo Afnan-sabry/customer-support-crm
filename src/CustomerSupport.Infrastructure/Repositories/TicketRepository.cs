@@ -52,8 +52,20 @@ public class TicketRepository : ITicketRepository
     public async Task<string> GenerateTicketNumberAsync(CancellationToken cancellationToken = default)
     {
         var today = DateTime.UtcNow.ToString("yyyyMMdd");
-        var count = await _context.Tickets
-            .CountAsync(t => t.TicketNumber.StartsWith($"TKT-{today}"), cancellationToken);
-        return $"TKT-{today}-{(count + 1):D4}";
+        var prefix = $"TKT-{today}-";
+        var lastNumber = await _context.Tickets
+            .Where(t => t.TicketNumber.StartsWith(prefix))
+            .Select(t => t.TicketNumber)
+            .OrderByDescending(n => n)
+            .FirstOrDefaultAsync(cancellationToken);
+
+        var next = 1;
+        if (lastNumber != null)
+        {
+            var suffix = lastNumber.Substring(prefix.Length);
+            if (int.TryParse(suffix, out var parsed))
+                next = parsed + 1;
+        }
+        return $"{prefix}{next:D4}";
     }
 }

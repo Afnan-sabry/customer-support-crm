@@ -26,7 +26,7 @@ public class AuthController : ControllerBase
         return Ok(result);
     }
 
-    [AllowAnonymous]
+    [Authorize(Policy = "Permission:users.create")]
     [HttpPost("register")]
     public async Task<ActionResult<Result>> Register(RegisterCommand command)
     {

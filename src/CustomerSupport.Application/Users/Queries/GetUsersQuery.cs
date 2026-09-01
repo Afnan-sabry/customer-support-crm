@@ -2,6 +2,7 @@ using CustomerSupport.Application.Common.Models;
 using CustomerSupport.Application.Users.DTOs;
 using CustomerSupport.Domain.Entities;
 using CustomerSupport.Domain.Interfaces;
+using CustomerSupport.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -14,11 +15,13 @@ public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, PaginatedList
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly ICurrentUserService _currentUserService;
+    private readonly AppDbContext _context;
 
-    public GetUsersQueryHandler(UserManager<ApplicationUser> userManager, ICurrentUserService currentUserService)
+    public GetUsersQueryHandler(UserManager<ApplicationUser> userManager, ICurrentUserService currentUserService, AppDbContext context)
     {
         _userManager = userManager;
         _currentUserService = currentUserService;
+        _context = context;
     }
 
     public async Task<PaginatedList<UserDetailDto>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
@@ -38,14 +41,17 @@ public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, PaginatedList
         var totalCount = await query.CountAsync(cancellationToken);
         var users = await query.Skip((request.Page - 1) * request.PageSize).Take(request.PageSize).ToListAsync(cancellationToken);
 
-        var dtos = new List<UserDetailDto>();
-        foreach (var user in users)
-        {
-            var roles = await _userManager.GetRolesAsync(user);
-            dtos.Add(new UserDetailDto(
-                user.Id, user.Email!, user.FullName, user.FullNameAr, user.Phone,
-                user.TenantId, user.PreferredLanguage, user.IsActive, roles.ToList()));
-        }
+        var userIds = users.Select(u => u.Id).ToList();
+        var userRoles = await _context.UserRoles
+            .Where(ur => userIds.Contains(ur.UserId))
+            .Join(_context.Roles, ur => ur.RoleId, r => r.Id, (ur, r) => new { ur.UserId, RoleName = r.Name! })
+            .ToListAsync(cancellationToken);
+        var rolesByUser = userRoles.GroupBy(x => x.UserId).ToDictionary(g => g.Key, g => g.Select(x => x.RoleName).ToList());
+
+        var dtos = users.Select(user => new UserDetailDto(
+            user.Id, user.Email!, user.FullName, user.FullNameAr, user.Phone,
+            user.TenantId, user.PreferredLanguage, user.IsActive,
+            rolesByUser.GetValueOrDefault(user.Id, []))).ToList();
 
         return new PaginatedList<UserDetailDto>(dtos, totalCount, request.Page, request.PageSize);
     }

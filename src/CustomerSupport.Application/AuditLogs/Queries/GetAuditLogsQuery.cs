@@ -1,5 +1,6 @@
 using CustomerSupport.Application.AuditLogs.DTOs;
 using CustomerSupport.Application.Common.Models;
+using CustomerSupport.Domain.Interfaces;
 using CustomerSupport.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -15,15 +16,18 @@ public record GetAuditLogsQuery(
 public class GetAuditLogsQueryHandler : IRequestHandler<GetAuditLogsQuery, PaginatedList<AuditLogDto>>
 {
     private readonly AppDbContext _context;
+    private readonly ICurrentUserService _currentUserService;
 
-    public GetAuditLogsQueryHandler(AppDbContext context)
+    public GetAuditLogsQueryHandler(AppDbContext context, ICurrentUserService currentUserService)
     {
         _context = context;
+        _currentUserService = currentUserService;
     }
 
     public async Task<PaginatedList<AuditLogDto>> Handle(GetAuditLogsQuery request, CancellationToken cancellationToken)
     {
         var query = _context.AuditLogs.AsNoTracking().AsQueryable();
+        query = query.Where(a => a.TenantId == _currentUserService.TenantId);
 
         if (!string.IsNullOrWhiteSpace(request.EntityType))
             query = query.Where(a => a.EntityType == request.EntityType);
