@@ -3,6 +3,7 @@ using CustomerSupport.Domain.Interfaces;
 using CustomerSupport.Infrastructure.Identity;
 using CustomerSupport.Infrastructure.Persistence;
 using CustomerSupport.Infrastructure.Persistence.Interceptors;
+using CustomerSupport.Infrastructure.Repositories;
 using CustomerSupport.Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -40,6 +41,7 @@ public static class DependencyInjection
         services.AddScoped<ICurrentUserService, CurrentUserService>();
         services.AddSingleton<IDateTimeService, DateTimeService>();
         services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<ICustomerRepository, CustomerRepository>();
 
         services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
         services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
