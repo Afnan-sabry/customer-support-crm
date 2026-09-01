@@ -2,8 +2,11 @@ using System.Text;
 using CustomerSupport.Application;
 using CustomerSupport.Domain;
 using CustomerSupport.Infrastructure;
+using CustomerSupport.Infrastructure.Persistence;
+using CustomerSupport.Infrastructure.Persistence.Seeders;
 using CustomerSupport.API.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 
@@ -88,6 +91,17 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddHealthChecks();
 
 var app = builder.Build();
+
+// Auto-apply migrations in development
+if (app.Environment.IsDevelopment())
+{
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await db.Database.MigrateAsync();
+    await DefaultTenantSeeder.SeedAsync(db);
+    await PermissionSeeder.SeedAsync(db);
+    await TicketReferenceDataSeeder.SeedAsync(db, DefaultTenantSeeder.DefaultTenantId);
+}
 
 // Middleware pipeline
 app.UseMiddleware<ExceptionHandlingMiddleware>();
