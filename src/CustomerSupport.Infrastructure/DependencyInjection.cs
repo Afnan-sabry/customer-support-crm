@@ -1,7 +1,9 @@
+using CustomerSupport.Domain.Interfaces;
+using CustomerSupport.Infrastructure.Persistence;
+using CustomerSupport.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using CustomerSupport.Infrastructure.Persistence;
 
 namespace CustomerSupport.Infrastructure;
 
@@ -14,6 +16,10 @@ public static class DependencyInjection
         services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(
                 configuration.GetConnectionString("DefaultConnection")));
+
+        services.AddHttpContextAccessor();
+        services.AddScoped<ICurrentUserService, CurrentUserService>();
+        services.AddSingleton<IDateTimeService, DateTimeService>();
 
         return services;
     }
