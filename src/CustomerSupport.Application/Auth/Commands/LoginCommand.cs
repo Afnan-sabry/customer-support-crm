@@ -1,6 +1,6 @@
 using CustomerSupport.Application.Auth.DTOs;
-using CustomerSupport.Application.Common.Interfaces;
 using CustomerSupport.Domain.Entities;
+using CustomerSupport.Domain.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 

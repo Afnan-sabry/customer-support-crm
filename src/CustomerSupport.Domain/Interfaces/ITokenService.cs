@@ -1,6 +1,6 @@
 using CustomerSupport.Domain.Entities;
 
-namespace CustomerSupport.Application.Common.Interfaces;
+namespace CustomerSupport.Domain.Interfaces;
 
 public interface ITokenService
 {

@@ -3,6 +3,7 @@ using CustomerSupport.Application;
 using CustomerSupport.Domain;
 using CustomerSupport.Infrastructure;
 using CustomerSupport.Infrastructure.Persistence;
+using CustomerSupport.Infrastructure.Persistence.Seeders;
 using CustomerSupport.API.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -97,6 +98,8 @@ if (app.Environment.IsDevelopment())
     using var scope = app.Services.CreateScope();
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     await db.Database.MigrateAsync();
+    await DefaultTenantSeeder.SeedAsync(db);
+    await PermissionSeeder.SeedAsync(db);
 }
 
 // Middleware pipeline
