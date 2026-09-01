@@ -37,3 +37,26 @@ body {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+// RTL/LTR Foundation
+html {
+  &[dir='rtl'] {
+    direction: rtl;
+    text-align: right;
+
+    .mat-mdc-form-field {
+      direction: rtl;
+    }
+  }
+
+  &[dir='ltr'] {
+    direction: ltr;
+    text-align: left;
+  }
+}
+
+// Use CSS logical properties throughout the app:
+// margin-inline-start instead of margin-left
+// padding-inline-end instead of padding-right
+// inset-inline-start instead of left
+// border-inline-start instead of border-left
