@@ -100,6 +100,7 @@ if (app.Environment.IsDevelopment())
     await db.Database.MigrateAsync();
     await DefaultTenantSeeder.SeedAsync(db);
     await PermissionSeeder.SeedAsync(db);
+    await TicketReferenceDataSeeder.SeedAsync(db, DefaultTenantSeeder.DefaultTenantId);
 }
 
 // Middleware pipeline

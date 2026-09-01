@@ -42,6 +42,7 @@ public static class DependencyInjection
         services.AddSingleton<IDateTimeService, DateTimeService>();
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<ICustomerRepository, CustomerRepository>();
+        services.AddScoped<ITicketRepository, TicketRepository>();
 
         services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
         services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();

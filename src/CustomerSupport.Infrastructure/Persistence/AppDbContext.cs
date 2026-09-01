@@ -25,6 +25,13 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
     public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
     public DbSet<Customer> Customers => Set<Customer>();
     public DbSet<CustomerContact> CustomerContacts => Set<CustomerContact>();
+    public DbSet<Ticket> Tickets => Set<Ticket>();
+    public DbSet<TicketCategory> TicketCategories => Set<TicketCategory>();
+    public DbSet<TicketPriority> TicketPriorities => Set<TicketPriority>();
+    public DbSet<TicketStatus> TicketStatuses => Set<TicketStatus>();
+    public DbSet<TicketComment> TicketComments => Set<TicketComment>();
+    public DbSet<TicketAttachment> TicketAttachments => Set<TicketAttachment>();
+    public DbSet<TicketHistory> TicketHistories => Set<TicketHistory>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
