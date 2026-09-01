@@ -1,4 +1,3 @@
-using System.Net;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,18 +31,33 @@ public class ExceptionHandlingMiddleware
 
     private static async Task HandleExceptionAsync(HttpContext context, Exception exception, IHostEnvironment environment)
     {
+        var (statusCode, title) = exception switch
+        {
+            UnauthorizedAccessException => (StatusCodes.Status401Unauthorized, "Unauthorized"),
+            FluentValidation.ValidationException => (StatusCodes.Status400BadRequest, "Validation Failed"),
+            KeyNotFoundException => (StatusCodes.Status404NotFound, "Not Found"),
+            _ => (StatusCodes.Status500InternalServerError, "An error occurred")
+        };
+
         context.Response.ContentType = "application/problem+json";
-        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+        context.Response.StatusCode = statusCode;
 
         var problemDetails = new ProblemDetails
         {
-            Status = context.Response.StatusCode,
-            Title = "An unexpected error occurred.",
-            Detail = environment.IsDevelopment()
-                ? exception.Message
-                : "An internal error occurred. Please try again later.",
+            Status = statusCode,
+            Title = title,
+            Detail = statusCode == StatusCodes.Status500InternalServerError && !environment.IsDevelopment()
+                ? "An internal error occurred. Please try again later."
+                : exception.Message,
             Instance = context.Request.Path
         };
+
+        if (exception is FluentValidation.ValidationException validationException)
+        {
+            problemDetails.Extensions["errors"] = validationException.Errors
+                .GroupBy(e => e.PropertyName)
+                .ToDictionary(g => g.Key, g => g.Select(e => e.ErrorMessage).ToArray());
+        }
 
         var json = JsonSerializer.Serialize(problemDetails, new JsonSerializerOptions
         {

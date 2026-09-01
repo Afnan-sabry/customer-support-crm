@@ -19,6 +19,9 @@ public class ApplicationUserConfiguration : IEntityTypeConfiguration<Application
             .HasForeignKey(u => u.TenantId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasQueryFilter(u => u.TenantId == Guid.Empty || u.IsActive);
+        // No global query filter here: ApplicationUser must be resolvable during
+        // anonymous auth flows (e.g. login), where ICurrentUserService.TenantId is
+        // Guid.Empty. Tenant isolation for user queries is enforced explicitly in
+        // Application-layer query handlers instead (see AppDbContext.OnModelCreating).
     }
 }

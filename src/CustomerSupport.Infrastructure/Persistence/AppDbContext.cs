@@ -27,10 +27,19 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
 
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
 
-        // Global query filter for tenant isolation on all ITenantEntity types
+        // Identity types are excluded from the global tenant query filter: ASP.NET Core
+        // Identity (UserManager/SignInManager) must be able to resolve users during
+        // anonymous auth flows (e.g. login), where ICurrentUserService.TenantId is
+        // Guid.Empty. Applying the filter here would make FindByEmailAsync return no
+        // rows for any real user. Tenant isolation for Identity entities is enforced
+        // explicitly in Application-layer query handlers instead.
+        var identityTypes = new[] { typeof(ApplicationUser), typeof(ApplicationRole) };
+
+        // Global query filter for tenant isolation on all other ITenantEntity types
         foreach (var entityType in modelBuilder.Model.GetEntityTypes())
         {
-            if (typeof(ITenantEntity).IsAssignableFrom(entityType.ClrType))
+            if (typeof(ITenantEntity).IsAssignableFrom(entityType.ClrType)
+                && !identityTypes.Contains(entityType.ClrType))
             {
                 var method = typeof(AppDbContext)
                     .GetMethod(nameof(ApplyTenantFilter), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!
