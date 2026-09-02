@@ -60,6 +60,9 @@ public static class DependencyInjection
         services.AddScoped<IEmailSender, MockEmailSender>();
         services.AddScoped<IChannelProvider, EmailChannelProvider>();
 
+        services.AddScoped<IWhatsAppClient, MockWhatsAppClient>();
+        services.AddScoped<IChannelProvider, WhatsAppChannelProvider>();
+
         return services;
     }
 }
