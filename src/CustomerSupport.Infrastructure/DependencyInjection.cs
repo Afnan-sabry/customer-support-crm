@@ -49,6 +49,7 @@ public static class DependencyInjection
         services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
 
         services.AddScoped<EscalationService>();
+        services.AddScoped<AssignmentService>();
         services.AddHostedService<SlaMonitoringService>();
 
         return services;

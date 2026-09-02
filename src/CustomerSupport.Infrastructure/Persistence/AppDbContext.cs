@@ -36,6 +36,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
     public DbSet<TicketSla> TicketSlas => Set<TicketSla>();
     public DbSet<SlaBreachLog> SlaBreachLogs => Set<SlaBreachLog>();
     public DbSet<EscalationRule> EscalationRules => Set<EscalationRule>();
+    public DbSet<AssignmentRule> AssignmentRules => Set<AssignmentRule>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
