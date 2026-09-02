@@ -32,6 +32,9 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
     public DbSet<TicketComment> TicketComments => Set<TicketComment>();
     public DbSet<TicketAttachment> TicketAttachments => Set<TicketAttachment>();
     public DbSet<TicketHistory> TicketHistories => Set<TicketHistory>();
+    public DbSet<SlaPolicy> SlaPolicies => Set<SlaPolicy>();
+    public DbSet<TicketSla> TicketSlas => Set<TicketSla>();
+    public DbSet<SlaBreachLog> SlaBreachLogs => Set<SlaBreachLog>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
