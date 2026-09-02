@@ -4,7 +4,9 @@ using CustomerSupport.Domain;
 using CustomerSupport.Infrastructure;
 using CustomerSupport.Infrastructure.Persistence;
 using CustomerSupport.Infrastructure.Persistence.Seeders;
+using CustomerSupport.Domain.Entities;
 using CustomerSupport.API.Middleware;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -101,6 +103,10 @@ if (app.Environment.IsDevelopment())
     await DefaultTenantSeeder.SeedAsync(db);
     await PermissionSeeder.SeedAsync(db);
     await TicketReferenceDataSeeder.SeedAsync(db, DefaultTenantSeeder.DefaultTenantId);
+
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
+    await RoleAndUserSeeder.SeedAsync(db, userManager, roleManager, DefaultTenantSeeder.DefaultTenantId);
 }
 
 // Middleware pipeline

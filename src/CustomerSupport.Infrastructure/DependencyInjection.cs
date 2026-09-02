@@ -5,6 +5,7 @@ using CustomerSupport.Infrastructure.Persistence;
 using CustomerSupport.Infrastructure.Persistence.Interceptors;
 using CustomerSupport.Infrastructure.Repositories;
 using CustomerSupport.Infrastructure.Services;
+using CustomerSupport.Infrastructure.Services.Channels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -45,6 +46,8 @@ public static class DependencyInjection
         services.AddScoped<ITicketRepository, TicketRepository>();
         services.AddScoped<ISlaRepository, SlaRepository>();
         services.AddScoped<IKnowledgeRepository, KnowledgeRepository>();
+        services.AddScoped<IConversationRepository, ConversationRepository>();
+        services.AddScoped<IChannelProviderFactory, ChannelProviderFactory>();
 
         services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
         services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
