@@ -152,5 +152,52 @@
     "manageCategories": "Manage Categories",
     "addCategory": "Add Category",
     "deleteCategoryConfirm": "Are you sure you want to delete this category?"
+  },
+  "sla": {
+    "title": "SLA Policies",
+    "createPolicy": "New SLA Policy",
+    "editPolicy": "Edit SLA Policy",
+    "name": "Policy Name",
+    "nameAr": "Policy Name (Arabic)",
+    "priority": "Priority",
+    "category": "Category",
+    "allPriorities": "All Priorities",
+    "allCategories": "All Categories",
+    "firstResponseMinutes": "First Response (minutes)",
+    "resolutionMinutes": "Resolution (minutes)",
+    "active": "Active",
+    "inactive": "Inactive",
+    "deleteConfirm": "Are you sure you want to deactivate this SLA policy?"
+  },
+  "escalation": {
+    "title": "Escalation Rules",
+    "createRule": "New Escalation Rule",
+    "editRule": "Edit Escalation Rule",
+    "name": "Rule Name",
+    "nameAr": "Rule Name (Arabic)",
+    "triggerType": "Trigger",
+    "firstResponseBreached": "First Response Breached",
+    "resolutionBreached": "Resolution Breached",
+    "triggerAfterMinutes": "Trigger After (minutes)",
+    "actionType": "Action",
+    "reassign": "Reassign Ticket",
+    "changePriority": "Change Priority",
+    "actionTarget": "Target",
+    "order": "Order",
+    "deleteConfirm": "Are you sure you want to deactivate this escalation rule?"
+  },
+  "assignment": {
+    "title": "Assignment Rules",
+    "createRule": "New Assignment Rule",
+    "editRule": "Edit Assignment Rule",
+    "name": "Rule Name",
+    "nameAr": "Rule Name (Arabic)",
+    "strategy": "Strategy",
+    "roundRobin": "Round Robin",
+    "leastLoad": "Least Load",
+    "agentPool": "Agent Pool",
+    "allAgents": "All Agents",
+    "order": "Order",
+    "deleteConfirm": "Are you sure you want to deactivate this assignment rule?"
   }
 }

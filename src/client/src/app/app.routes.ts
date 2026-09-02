@@ -28,6 +28,18 @@ export const routes: Routes = [
         path: 'knowledge',
         loadChildren: () => import('./features/knowledge/knowledge.routes').then(m => m.knowledgeRoutes)
       },
+      {
+        path: 'sla',
+        loadChildren: () => import('./features/sla/sla.routes').then(m => m.slaRoutes)
+      },
+      {
+        path: 'escalation',
+        loadChildren: () => import('./features/escalation/escalation.routes').then(m => m.escalationRoutes)
+      },
+      {
+        path: 'assignment',
+        loadChildren: () => import('./features/assignment/assignment.routes').then(m => m.assignmentRoutes)
+      },
     ]
   },
   {

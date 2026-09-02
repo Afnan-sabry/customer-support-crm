@@ -152,5 +152,52 @@
     "manageCategories": "إدارة التصنيفات",
     "addCategory": "إضافة تصنيف",
     "deleteCategoryConfirm": "هل أنت متأكد من حذف هذا التصنيف؟"
+  },
+  "sla": {
+    "title": "سياسات اتفاقية مستوى الخدمة",
+    "createPolicy": "سياسة جديدة",
+    "editPolicy": "تعديل السياسة",
+    "name": "اسم السياسة",
+    "nameAr": "اسم السياسة (عربي)",
+    "priority": "الأولوية",
+    "category": "التصنيف",
+    "allPriorities": "جميع الأولويات",
+    "allCategories": "جميع التصنيفات",
+    "firstResponseMinutes": "الاستجابة الأولى (دقائق)",
+    "resolutionMinutes": "الحل (دقائق)",
+    "active": "نشط",
+    "inactive": "غير نشط",
+    "deleteConfirm": "هل أنت متأكد من إلغاء تنشيط هذه السياسة؟"
+  },
+  "escalation": {
+    "title": "قواعد التصعيد",
+    "createRule": "قاعدة تصعيد جديدة",
+    "editRule": "تعديل قاعدة التصعيد",
+    "name": "اسم القاعدة",
+    "nameAr": "اسم القاعدة (عربي)",
+    "triggerType": "المحفز",
+    "firstResponseBreached": "تجاوز الاستجابة الأولى",
+    "resolutionBreached": "تجاوز الحل",
+    "triggerAfterMinutes": "التفعيل بعد (دقائق)",
+    "actionType": "الإجراء",
+    "reassign": "إعادة تعيين",
+    "changePriority": "تغيير الأولوية",
+    "actionTarget": "الهدف",
+    "order": "الترتيب",
+    "deleteConfirm": "هل أنت متأكد من إلغاء تنشيط قاعدة التصعيد؟"
+  },
+  "assignment": {
+    "title": "قواعد التعيين",
+    "createRule": "قاعدة تعيين جديدة",
+    "editRule": "تعديل قاعدة التعيين",
+    "name": "اسم القاعدة",
+    "nameAr": "اسم القاعدة (عربي)",
+    "strategy": "الاستراتيجية",
+    "roundRobin": "التوزيع الدوري",
+    "leastLoad": "الأقل حملاً",
+    "agentPool": "مجموعة الوكلاء",
+    "allAgents": "جميع الوكلاء",
+    "order": "الترتيب",
+    "deleteConfirm": "هل أنت متأكد من إلغاء تنشيط قاعدة التعيين؟"
   }
 }
