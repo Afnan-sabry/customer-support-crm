@@ -69,6 +69,9 @@ public static class DependencyInjection
         // in the API project's Program.cs, not here, because it depends on IHubContext<ChatHub>
         // and ChatHub is defined in the API project (Infrastructure cannot reference API).
 
+        services.AddScoped<ISmsClient, MockSmsClient>();
+        services.AddScoped<IChannelProvider, SmsChannelProvider>();
+
         return services;
     }
 }
