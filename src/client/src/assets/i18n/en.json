@@ -125,5 +125,32 @@
     "noComments": "No comments yet",
     "noAttachments": "No attachments",
     "noHistory": "No history"
+  },
+  "knowledge": {
+    "title": "Knowledge Base",
+    "articles": "Articles",
+    "categories": "Categories",
+    "createArticle": "New Article",
+    "editArticle": "Edit Article",
+    "articleDetail": "Article Detail",
+    "articleTitle": "Title",
+    "articleTitleAr": "Title (Arabic)",
+    "content": "Content",
+    "contentAr": "Content (Arabic)",
+    "category": "Category",
+    "tags": "Tags",
+    "published": "Published",
+    "draft": "Draft",
+    "viewCount": "Views",
+    "search": "Search articles...",
+    "noArticles": "No articles found",
+    "deleteConfirm": "Are you sure you want to delete this article?",
+    "categoryName": "Category Name",
+    "categoryNameAr": "Category Name (Arabic)",
+    "parentCategory": "Parent Category",
+    "order": "Order",
+    "manageCategories": "Manage Categories",
+    "addCategory": "Add Category",
+    "deleteCategoryConfirm": "Are you sure you want to delete this category?"
   }
 }

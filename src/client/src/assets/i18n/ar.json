@@ -125,5 +125,32 @@
     "noComments": "لا توجد تعليقات بعد",
     "noAttachments": "لا توجد مرفقات",
     "noHistory": "لا يوجد سجل"
+  },
+  "knowledge": {
+    "title": "قاعدة المعرفة",
+    "articles": "المقالات",
+    "categories": "التصنيفات",
+    "createArticle": "مقال جديد",
+    "editArticle": "تعديل المقال",
+    "articleDetail": "تفاصيل المقال",
+    "articleTitle": "العنوان",
+    "articleTitleAr": "العنوان (عربي)",
+    "content": "المحتوى",
+    "contentAr": "المحتوى (عربي)",
+    "category": "التصنيف",
+    "tags": "الوسوم",
+    "published": "منشور",
+    "draft": "مسودة",
+    "viewCount": "المشاهدات",
+    "search": "البحث في المقالات...",
+    "noArticles": "لا توجد مقالات",
+    "deleteConfirm": "هل أنت متأكد من حذف هذا المقال؟",
+    "categoryName": "اسم التصنيف",
+    "categoryNameAr": "اسم التصنيف (عربي)",
+    "parentCategory": "التصنيف الأب",
+    "order": "الترتيب",
+    "manageCategories": "إدارة التصنيفات",
+    "addCategory": "إضافة تصنيف",
+    "deleteCategoryConfirm": "هل أنت متأكد من حذف هذا التصنيف؟"
   }
 }
