@@ -24,10 +24,17 @@ public class EscalationService
 
         if (ticket == null) return;
 
+        var triggerType = breach.BreachType switch
+        {
+            "FirstResponse" => "FirstResponseBreached",
+            "Resolution" => "ResolutionBreached",
+            _ => breach.BreachType
+        };
+
         var rules = await _context.EscalationRules
             .IgnoreQueryFilters()
             .Where(r => r.TenantId == breach.TenantId && r.IsActive)
-            .Where(r => r.TriggerType == breach.BreachType)
+            .Where(r => r.TriggerType == triggerType)
             .Where(r => (r.PriorityId == null || r.PriorityId == ticket.PriorityId)
                      && (r.CategoryId == null || r.CategoryId == ticket.CategoryId))
             .OrderBy(r => r.Order)
