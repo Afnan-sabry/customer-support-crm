@@ -37,6 +37,8 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
     public DbSet<SlaBreachLog> SlaBreachLogs => Set<SlaBreachLog>();
     public DbSet<EscalationRule> EscalationRules => Set<EscalationRule>();
     public DbSet<AssignmentRule> AssignmentRules => Set<AssignmentRule>();
+    public DbSet<KnowledgeCategory> KnowledgeCategories => Set<KnowledgeCategory>();
+    public DbSet<KnowledgeArticle> KnowledgeArticles => Set<KnowledgeArticle>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

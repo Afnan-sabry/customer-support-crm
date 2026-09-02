@@ -44,6 +44,7 @@ public static class DependencyInjection
         services.AddScoped<ICustomerRepository, CustomerRepository>();
         services.AddScoped<ITicketRepository, TicketRepository>();
         services.AddScoped<ISlaRepository, SlaRepository>();
+        services.AddScoped<IKnowledgeRepository, KnowledgeRepository>();
 
         services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
         services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
