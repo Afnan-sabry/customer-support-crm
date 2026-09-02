@@ -63,6 +63,12 @@ public static class DependencyInjection
         services.AddScoped<IWhatsAppClient, MockWhatsAppClient>();
         services.AddScoped<IChannelProvider, WhatsAppChannelProvider>();
 
+        services.AddScoped<IChatSessionService, ChatSessionService>();
+
+        // Note: LiveChatChannelProvider (IChannelProvider for ChannelType.LiveChat) is registered
+        // in the API project's Program.cs, not here, because it depends on IHubContext<ChatHub>
+        // and ChatHub is defined in the API project (Infrastructure cannot reference API).
+
         return services;
     }
 }

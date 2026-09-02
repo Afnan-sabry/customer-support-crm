@@ -38,6 +38,10 @@ import { AuthService } from '../../core/services/auth.service';
             <mat-icon matListItemIcon>menu_book</mat-icon>
             <span>{{ 'nav.knowledgeBase' | translate }}</span>
           </a>
+          <a mat-list-item routerLink="/admin/chat" routerLinkActive="active">
+            <mat-icon matListItemIcon>chat</mat-icon>
+            <span>{{ 'nav.chat' | translate }}</span>
+          </a>
           <a mat-list-item routerLink="/admin/reports" routerLinkActive="active">
             <mat-icon matListItemIcon>bar_chart</mat-icon>
             <span>{{ 'nav.reports' | translate }}</span>

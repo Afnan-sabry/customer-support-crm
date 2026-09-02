@@ -44,6 +44,10 @@ export const routes: Routes = [
         path: 'assignment',
         loadChildren: () => import('./features/assignment/assignment.routes').then(m => m.assignmentRoutes)
       },
+      {
+        path: 'chat',
+        loadChildren: () => import('./features/chat/chat.routes').then(m => m.chatRoutes)
+      },
     ]
   },
   {

@@ -5,7 +5,10 @@ using CustomerSupport.Infrastructure;
 using CustomerSupport.Infrastructure.Persistence;
 using CustomerSupport.Infrastructure.Persistence.Seeders;
 using CustomerSupport.Domain.Entities;
+using CustomerSupport.Domain.Interfaces;
 using CustomerSupport.API.Middleware;
+using CustomerSupport.API.Hubs;
+using CustomerSupport.API.Services.Channels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -92,6 +95,9 @@ builder.Services.AddSwaggerGen(options =>
 // Health checks
 builder.Services.AddHealthChecks();
 
+builder.Services.AddSignalR();
+builder.Services.AddScoped<IChannelProvider, LiveChatChannelProvider>();
+
 var app = builder.Build();
 
 // Auto-apply migrations in development
@@ -127,5 +133,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapHealthChecks("/health");
+app.MapHub<ChatHub>("/hubs/chat");
 
 app.Run();

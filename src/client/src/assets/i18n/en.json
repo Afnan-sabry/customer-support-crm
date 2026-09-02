@@ -12,7 +12,8 @@
     "reports": "Reports",
     "settings": "Settings",
     "users": "Users",
-    "roles": "Roles"
+    "roles": "Roles",
+    "chat": "Live Chat"
   },
   "common": {
     "save": "Save",
@@ -219,5 +220,17 @@
     "allAgents": "All Agents",
     "order": "Order",
     "deleteConfirm": "Are you sure you want to deactivate this assignment rule?"
+  },
+  "chat": {
+    "title": "Live Chat",
+    "activeSessions": "Active Sessions",
+    "noSessions": "No active chat sessions",
+    "noSubject": "No subject",
+    "unassigned": "Unassigned",
+    "accept": "Accept",
+    "endChat": "End Chat",
+    "typeMessage": "Type a message...",
+    "typing": "Typing...",
+    "selectSession": "Select a chat session to start"
   }
 }
