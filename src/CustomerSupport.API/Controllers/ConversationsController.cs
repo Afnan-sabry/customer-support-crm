@@ -68,11 +68,8 @@ public class ConversationsController : ControllerBase
     [Authorize(Policy = "Permission:conversations.manage")]
     public async Task<ActionResult<Result>> ReopenConversation(Guid conversationId)
     {
-        var conversation = await _mediator.Send(new GetConversationByIdQuery(conversationId));
-        if (conversation is null) return NotFound();
-        // Reopen is the inverse of close — set status back to Active
-        // Reuse the pattern from close but in reverse
-        return Ok(Result.Success());
+        var result = await _mediator.Send(new ReopenConversationCommand(conversationId));
+        return result.Succeeded ? Ok(result) : BadRequest(result);
     }
 
     [HttpPut("{conversationId:guid}/assign")]
