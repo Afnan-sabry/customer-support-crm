@@ -126,6 +126,26 @@
     "noAttachments": "No attachments",
     "noHistory": "No history"
   },
+  "dashboard": {
+    "title": "Dashboard",
+    "openTickets": "Open Tickets",
+    "overdueTickets": "Overdue Tickets",
+    "resolvedToday": "Resolved Today",
+    "unassignedTickets": "Unassigned",
+    "myOpenTickets": "My Open Tickets",
+    "myOverdueTickets": "My Overdue",
+    "slaCompliance": "SLA Compliance",
+    "firstResponse": "First Response",
+    "resolution": "Resolution",
+    "myTickets": "My Tickets",
+    "teamWorkload": "Team Workload",
+    "agent": "Agent",
+    "open": "Open",
+    "overdue": "Overdue",
+    "refresh": "Refresh",
+    "noTickets": "No tickets assigned",
+    "compliance": "Compliance"
+  },
   "knowledge": {
     "title": "Knowledge Base",
     "articles": "Articles",

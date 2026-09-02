@@ -126,6 +126,26 @@
     "noAttachments": "لا توجد مرفقات",
     "noHistory": "لا يوجد سجل"
   },
+  "dashboard": {
+    "title": "لوحة المعلومات",
+    "openTickets": "التذاكر المفتوحة",
+    "overdueTickets": "التذاكر المتأخرة",
+    "resolvedToday": "تم حلها اليوم",
+    "unassignedTickets": "غير معينة",
+    "myOpenTickets": "تذاكري المفتوحة",
+    "myOverdueTickets": "تذاكري المتأخرة",
+    "slaCompliance": "التزام اتفاقية الخدمة",
+    "firstResponse": "الاستجابة الأولى",
+    "resolution": "الحل",
+    "myTickets": "تذاكري",
+    "teamWorkload": "حمل عمل الفريق",
+    "agent": "الوكيل",
+    "open": "مفتوحة",
+    "overdue": "متأخرة",
+    "refresh": "تحديث",
+    "noTickets": "لا توجد تذاكر معينة",
+    "compliance": "الالتزام"
+  },
   "knowledge": {
     "title": "قاعدة المعرفة",
     "articles": "المقالات",
