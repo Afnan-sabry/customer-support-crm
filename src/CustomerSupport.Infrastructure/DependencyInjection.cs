@@ -6,6 +6,7 @@ using CustomerSupport.Infrastructure.Persistence.Interceptors;
 using CustomerSupport.Infrastructure.Repositories;
 using CustomerSupport.Infrastructure.Services;
 using CustomerSupport.Infrastructure.Services.Channels;
+using CustomerSupport.Infrastructure.Services.MockProviders;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -55,6 +56,9 @@ public static class DependencyInjection
         services.AddScoped<EscalationService>();
         services.AddScoped<AssignmentService>();
         services.AddHostedService<SlaMonitoringService>();
+
+        services.AddScoped<IEmailSender, MockEmailSender>();
+        services.AddScoped<IChannelProvider, EmailChannelProvider>();
 
         return services;
     }
