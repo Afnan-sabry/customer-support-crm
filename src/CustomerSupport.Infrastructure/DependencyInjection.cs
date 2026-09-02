@@ -43,6 +43,7 @@ public static class DependencyInjection
         services.AddScoped<ICurrentUserService, CurrentUserService>();
         services.AddSingleton<IDateTimeService, DateTimeService>();
         services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IPortalTokenService, PortalTokenService>();
         services.AddScoped<ICustomerRepository, CustomerRepository>();
         services.AddScoped<ITicketRepository, TicketRepository>();
         services.AddScoped<ISlaRepository, SlaRepository>();
