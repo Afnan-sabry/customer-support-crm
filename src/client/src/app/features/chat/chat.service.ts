@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../../core/services/api.service';
+import { PaginatedList } from '../../core/models/paginated-list.model';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export interface ChatSessionDto {
   id: string;
@@ -28,10 +30,10 @@ export interface ChatMessageDto {
 @Injectable({ providedIn: 'root' })
 export class ChatService extends ApiService {
   getActiveSessions(): Observable<ChatSessionDto[]> {
-    return this.get<ChatSessionDto[]>('/v1/conversations', {
+    return this.get<PaginatedList<ChatSessionDto>>('/v1/conversations', {
       channel: 2, // LiveChat
       status: 0   // Active
-    });
+    }).pipe(map(r => r.items));
   }
 
   assignToMe(conversationId: string, agentId: string): Observable<any> {
