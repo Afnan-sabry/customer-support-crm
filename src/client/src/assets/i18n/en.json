@@ -13,7 +13,8 @@
     "settings": "Settings",
     "users": "Users",
     "roles": "Roles",
-    "chat": "Live Chat"
+    "chat": "Live Chat",
+    "conversations": "Conversations"
   },
   "common": {
     "save": "Save",
@@ -232,5 +233,42 @@
     "typeMessage": "Type a message...",
     "typing": "Typing...",
     "selectSession": "Select a chat session to start"
+  },
+  "portal": {
+    "title": "Customer Portal",
+    "loginSubtitle": "Sign in to your account",
+    "email": "Email",
+    "password": "Password",
+    "login": "Login",
+    "needAccount": "Need an account? Register",
+    "haveAccount": "Already have an account? Login",
+    "registerTitle": "Create Account",
+    "registerSubtitle": "Sign up to submit and track support tickets",
+    "register": "Register",
+    "fullName": "Full Name",
+    "fullNameAr": "Full Name (Arabic)",
+    "phone": "Phone",
+    "welcome": "Welcome, {{name}}",
+    "submitTicket": "Submit Ticket",
+    "myTickets": "My Tickets",
+    "browseKnowledge": "Browse Knowledge Base",
+    "searchHelp": "Search for Help",
+    "searchPlaceholder": "Search articles...",
+    "noResults": "No articles found",
+    "recentTickets": "Recent Tickets",
+    "noTickets": "You have no tickets yet",
+    "knowledgeTitle": "Knowledge Base",
+    "profileTitle": "My Profile",
+    "newPassword": "New Password",
+    "newPasswordHint": "Leave blank to keep current password",
+    "profileUpdated": "Profile updated successfully",
+    "navHome": "Home",
+    "navTickets": "My Tickets",
+    "navKnowledge": "Knowledge Base",
+    "navProfile": "Profile",
+    "chatTitle": "Chat with Support",
+    "chatIntro": "Start a live chat with our support team.",
+    "chatStart": "Start Chat",
+    "chatWaiting": "Waiting for an agent to join..."
   }
 }

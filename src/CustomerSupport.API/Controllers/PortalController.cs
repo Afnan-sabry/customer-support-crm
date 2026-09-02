@@ -1,9 +1,12 @@
 using CustomerSupport.Application.Common.Models;
+using CustomerSupport.Application.Conversations.Commands;
+using CustomerSupport.Application.Conversations.DTOs;
 using CustomerSupport.Application.Knowledge.DTOs;
 using CustomerSupport.Application.Knowledge.Queries;
 using CustomerSupport.Application.Portal.Commands;
 using CustomerSupport.Application.Portal.DTOs;
 using CustomerSupport.Application.Portal.Queries;
+using CustomerSupport.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -76,6 +79,21 @@ public class PortalController : ControllerBase
             categoryId is not null ? Guid.Parse(categoryId) : null, true, page, pageSize)));
     }
 
+    [HttpPost("chat/start")]
+    public async Task<ActionResult<ConversationDto>> StartChat([FromBody] PortalStartChatRequest? request)
+    {
+        var result = await _mediator.Send(new CreateConversationCommand(
+            GetCustomerId(), ChannelType.LiveChat, request?.Subject, null));
+        return Ok(result);
+    }
+
+    [HttpGet("knowledge/{id:guid}")]
+    public async Task<ActionResult<KnowledgeArticleDetailDto>> GetKnowledgeArticle(Guid id)
+    {
+        var result = await _mediator.Send(new GetKnowledgeArticleByIdQuery(id));
+        return result is null ? NotFound() : Ok(result);
+    }
+
     [HttpGet("profile")]
     public async Task<ActionResult<PortalUserDto>> GetProfile()
     {
@@ -94,3 +112,4 @@ public class PortalController : ControllerBase
 
 public record PortalAddCommentRequest(string Content);
 public record PortalUpdateProfileRequest(string FullName, string FullNameAr, string? Phone, string? NewPassword);
+public record PortalStartChatRequest(string? Subject);

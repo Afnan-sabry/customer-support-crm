@@ -54,7 +54,10 @@ export const routes: Routes = [
     path: 'portal',
     loadComponent: () => import('./layouts/portal-layout/portal-layout').then(m => m.PortalLayoutComponent),
     children: [
-      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      {
+        path: '',
+        loadChildren: () => import('./features/portal/portal.routes').then(m => m.portalRoutes)
+      }
     ]
   },
   {

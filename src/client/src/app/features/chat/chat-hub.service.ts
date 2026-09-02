@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Subject } from 'rxjs';
 import type { HubConnection } from '@microsoft/signalr';
 import { AuthService } from '../../core/services/auth.service';
+import { PortalAuthService } from '../portal/portal-auth.service';
 import { environment } from '../../../environments/environment';
 
 export interface HubMessage {
@@ -18,6 +19,7 @@ export interface HubMessage {
 export class ChatHubService {
   private connection: HubConnection | null = null;
   private authService = inject(AuthService);
+  private portalAuthService = inject(PortalAuthService);
 
   messageReceived$ = new Subject<HubMessage>();
   typingIndicator$ = new Subject<{ conversationId: string; userId: string }>();
@@ -29,7 +31,7 @@ export class ChatHubService {
     const signalR = await import('@microsoft/signalr');
     this.connection = new signalR.HubConnectionBuilder()
       .withUrl(`${environment.apiUrl.replace('/api', '')}/hubs/chat`, {
-        accessTokenFactory: () => this.authService.getToken() || ''
+        accessTokenFactory: () => this.portalAuthService.getToken() || this.authService.getToken() || ''
       })
       .withAutomaticReconnect()
       .build();
