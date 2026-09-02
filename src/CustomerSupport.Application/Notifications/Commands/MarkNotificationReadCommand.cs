@@ -1,4 +1,5 @@
 using CustomerSupport.Application.Common.Models;
+using CustomerSupport.Domain.Interfaces;
 using CustomerSupport.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -10,10 +11,12 @@ public record MarkNotificationReadCommand(Guid NotificationId) : IRequest<Result
 public class MarkNotificationReadCommandHandler : IRequestHandler<MarkNotificationReadCommand, Result>
 {
     private readonly AppDbContext _context;
+    private readonly ICurrentUserService _currentUserService;
 
-    public MarkNotificationReadCommandHandler(AppDbContext context)
+    public MarkNotificationReadCommandHandler(AppDbContext context, ICurrentUserService currentUserService)
     {
         _context = context;
+        _currentUserService = currentUserService;
     }
 
     public async Task<Result> Handle(MarkNotificationReadCommand request, CancellationToken cancellationToken)
@@ -22,6 +25,8 @@ public class MarkNotificationReadCommandHandler : IRequestHandler<MarkNotificati
             .FirstOrDefaultAsync(n => n.Id == request.NotificationId, cancellationToken);
 
         if (notification is null) return Result.Failure("Notification not found");
+
+        if (notification.RecipientId != _currentUserService.UserId) return Result.Failure("Notification not found");
 
         notification.IsRead = true;
         notification.ReadAt = DateTime.UtcNow;
