@@ -41,6 +41,7 @@ public static class PermissionSeeder
         ("chat.view", "Chat", "View live chat"),
         ("chat.manage", "Chat", "Manage live chat sessions"),
         ("portal.access", "Portal", "Access the customer portal"),
+        ("notifications.view", "Notifications", "View notifications"),
     ];
 
     public static async Task SeedAsync(AppDbContext context)

@@ -234,6 +234,11 @@
     "typing": "يكتب...",
     "selectSession": "اختر جلسة محادثة للبدء"
   },
+  "notifications": {
+    "title": "الإشعارات",
+    "markAllRead": "تحديد الكل كمقروء",
+    "noNotifications": "لا توجد إشعارات"
+  },
   "portal": {
     "title": "بوابة العملاء",
     "loginSubtitle": "سجّل الدخول إلى حسابك",

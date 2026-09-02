@@ -8,12 +8,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { LanguageService } from '../../core/services/language.service';
 import { AuthService } from '../../core/services/auth.service';
+import { NotificationBellComponent } from '../../features/notifications/notification-bell/notification-bell';
 
 @Component({
   selector: 'app-admin-layout',
   imports: [
     RouterOutlet, RouterLink, RouterLinkActive, TranslateModule,
-    MatSidenavModule, MatToolbarModule, MatListModule, MatIconModule, MatButtonModule
+    MatSidenavModule, MatToolbarModule, MatListModule, MatIconModule, MatButtonModule,
+    NotificationBellComponent
   ],
   template: `
     <mat-sidenav-container class="admin-container">
@@ -76,6 +78,7 @@ import { AuthService } from '../../core/services/auth.service';
       <mat-sidenav-content>
         <mat-toolbar color="primary">
           <span class="spacer"></span>
+          <app-notification-bell />
           <button mat-icon-button (click)="toggleLanguage()">
             <mat-icon>language</mat-icon>
           </button>

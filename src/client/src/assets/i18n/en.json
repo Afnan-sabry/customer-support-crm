@@ -234,6 +234,11 @@
     "typing": "Typing...",
     "selectSession": "Select a chat session to start"
   },
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Mark all read",
+    "noNotifications": "No notifications"
+  },
   "portal": {
     "title": "Customer Portal",
     "loginSubtitle": "Sign in to your account",

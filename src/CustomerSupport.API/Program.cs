@@ -8,6 +8,7 @@ using CustomerSupport.Domain.Entities;
 using CustomerSupport.Domain.Interfaces;
 using CustomerSupport.API.Middleware;
 using CustomerSupport.API.Hubs;
+using CustomerSupport.API.Services;
 using CustomerSupport.API.Services.Channels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -140,6 +141,7 @@ builder.Services.AddHealthChecks();
 
 builder.Services.AddSignalR();
 builder.Services.AddScoped<IChannelProvider, LiveChatChannelProvider>();
+builder.Services.AddScoped<INotificationDispatcher, InAppNotificationDispatcher>();
 
 var app = builder.Build();
 
@@ -156,6 +158,7 @@ if (app.Environment.IsDevelopment())
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
     await RoleAndUserSeeder.SeedAsync(db, userManager, roleManager, DefaultTenantSeeder.DefaultTenantId);
+    await NotificationTemplateSeeder.SeedAsync(db, DefaultTenantSeeder.DefaultTenantId);
 }
 
 // Middleware pipeline
@@ -177,5 +180,6 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapHealthChecks("/health");
 app.MapHub<ChatHub>("/hubs/chat");
+app.MapHub<NotificationHub>("/hubs/notifications");
 
 app.Run();

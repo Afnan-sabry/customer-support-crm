@@ -6,6 +6,7 @@ using CustomerSupport.Infrastructure.Persistence.Interceptors;
 using CustomerSupport.Infrastructure.Repositories;
 using CustomerSupport.Infrastructure.Services;
 using CustomerSupport.Infrastructure.Services.Channels;
+using CustomerSupport.Infrastructure.Services.Dispatchers;
 using CustomerSupport.Infrastructure.Services.MockProviders;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -72,6 +73,15 @@ public static class DependencyInjection
 
         services.AddScoped<ISmsClient, MockSmsClient>();
         services.AddScoped<IChannelProvider, SmsChannelProvider>();
+
+        services.AddScoped<INotificationService, NotificationService>();
+        services.AddScoped<INotificationDispatcher, EmailNotificationDispatcher>();
+        services.AddScoped<INotificationDispatcher, SmsNotificationDispatcher>();
+
+        // Note: InAppNotificationDispatcher (INotificationDispatcher for the "InApp" channel) is
+        // registered in the API project's Program.cs, not here, because it depends on
+        // IHubContext<NotificationHub> and NotificationHub is defined in the API project
+        // (Infrastructure cannot reference API).
 
         return services;
     }
