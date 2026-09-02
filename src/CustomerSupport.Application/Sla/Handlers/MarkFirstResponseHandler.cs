@@ -19,12 +19,6 @@ public class MarkFirstResponseHandler : INotificationHandler<TicketCommentAddedN
 
     public async Task Handle(TicketCommentAddedNotification notification, CancellationToken cancellationToken)
     {
-        var ticket = await _context.Tickets
-            .AsNoTracking()
-            .FirstOrDefaultAsync(t => t.Id == notification.TicketId, cancellationToken);
-
-        if (ticket == null) return;
-
         var isAgent = notification.CommentUserId != Guid.Empty;
         if (!isAgent) return;
 

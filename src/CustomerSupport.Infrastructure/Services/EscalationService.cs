@@ -1,4 +1,5 @@
 using CustomerSupport.Domain.Entities;
+using CustomerSupport.Domain.Interfaces;
 using CustomerSupport.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -9,11 +10,13 @@ public class EscalationService
 {
     private readonly AppDbContext _context;
     private readonly ILogger<EscalationService> _logger;
+    private readonly IDateTimeService _dateTimeService;
 
-    public EscalationService(AppDbContext context, ILogger<EscalationService> logger)
+    public EscalationService(AppDbContext context, ILogger<EscalationService> logger, IDateTimeService dateTimeService)
     {
         _context = context;
         _logger = logger;
+        _dateTimeService = dateTimeService;
     }
 
     public async Task ProcessBreachAsync(SlaBreachLog breach, CancellationToken cancellationToken)
@@ -54,7 +57,7 @@ public class EscalationService
                         Field = "AssignedToId",
                         OldValue = oldAssignee,
                         NewValue = targetUserId.ToString(),
-                        CreatedAt = DateTime.UtcNow
+                        CreatedAt = _dateTimeService.UtcNow
                     });
                     _logger.LogInformation("Escalation: Ticket {TicketId} reassigned to {UserId} by rule {RuleId}",
                         ticket.Id, targetUserId, rule.Id);
@@ -70,7 +73,7 @@ public class EscalationService
                         Field = "PriorityId",
                         OldValue = oldPriority,
                         NewValue = targetPriorityId.ToString(),
-                        CreatedAt = DateTime.UtcNow
+                        CreatedAt = _dateTimeService.UtcNow
                     });
                     _logger.LogInformation("Escalation: Ticket {TicketId} priority changed to {PriorityId} by rule {RuleId}",
                         ticket.Id, targetPriorityId, rule.Id);

@@ -151,6 +151,11 @@ export class EscalationRuleFormComponent implements OnInit {
     this.ruleId = this.route.snapshot.paramMap.get('id');
     this.isEditMode = !!this.ruleId;
 
+    this.updateActionTargetValidators(this.form.value.actionType ?? null);
+    this.form.get('actionType')!.valueChanges.subscribe(actionType => {
+      this.updateActionTargetValidators(actionType ?? null);
+    });
+
     this.ticketsService.getPriorities().subscribe(priorities => this.priorities = priorities);
     this.ticketsService.getCategories().subscribe(categories => this.categories = categories);
     this.usersService.getUsers({ pageSize: 200 }).subscribe(result => this.users = result.items);
@@ -211,5 +216,15 @@ export class EscalationRuleFormComponent implements OnInit {
   private handleError(err: any): void {
     this.saving = false;
     this.error = err.error?.detail || err.error?.title || 'An error occurred';
+  }
+
+  private updateActionTargetValidators(actionType: EscalationActionType | null): void {
+    const actionTargetControl = this.form.get('actionTarget')!;
+    if (actionType) {
+      actionTargetControl.setValidators([Validators.required]);
+    } else {
+      actionTargetControl.clearValidators();
+    }
+    actionTargetControl.updateValueAndValidity();
   }
 }

@@ -34,13 +34,25 @@ import { AuthService } from '../../core/services/auth.service';
             <mat-icon matListItemIcon>people</mat-icon>
             <span>{{ 'nav.customers' | translate }}</span>
           </a>
-          <a mat-list-item routerLink="/admin/knowledge-base" routerLinkActive="active">
+          <a mat-list-item routerLink="/admin/knowledge" routerLinkActive="active">
             <mat-icon matListItemIcon>menu_book</mat-icon>
             <span>{{ 'nav.knowledgeBase' | translate }}</span>
           </a>
           <a mat-list-item routerLink="/admin/reports" routerLinkActive="active">
             <mat-icon matListItemIcon>bar_chart</mat-icon>
             <span>{{ 'nav.reports' | translate }}</span>
+          </a>
+          <a mat-list-item routerLink="/admin/sla" routerLinkActive="active">
+            <mat-icon matListItemIcon>timer</mat-icon>
+            <span>{{ 'sla.title' | translate }}</span>
+          </a>
+          <a mat-list-item routerLink="/admin/escalation" routerLinkActive="active">
+            <mat-icon matListItemIcon>trending_up</mat-icon>
+            <span>{{ 'escalation.title' | translate }}</span>
+          </a>
+          <a mat-list-item routerLink="/admin/assignment" routerLinkActive="active">
+            <mat-icon matListItemIcon>assignment_ind</mat-icon>
+            <span>{{ 'assignment.title' | translate }}</span>
           </a>
           <a mat-list-item routerLink="/admin/users" routerLinkActive="active">
             <mat-icon matListItemIcon>manage_accounts</mat-icon>
