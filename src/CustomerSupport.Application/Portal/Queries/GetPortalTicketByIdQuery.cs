@@ -30,9 +30,9 @@ public class GetPortalTicketByIdQueryHandler : IRequestHandler<GetPortalTicketBy
 
         var comments = ticket.Comments.Select(c => new PortalCommentDto(
             c.Id, c.Content,
-            c.UserId != Guid.Empty ? (c.User?.FullName ?? "Agent") : "You",
+            c.UserId != null ? (c.User?.FullName ?? "Agent") : "You",
             c.CreatedAt,
-            c.UserId != Guid.Empty)).ToList();
+            c.UserId != null)).ToList();
 
         return new PortalTicketDetailDto(
             ticket.Id, ticket.TicketNumber, ticket.Subject, ticket.Description,

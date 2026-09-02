@@ -58,7 +58,7 @@ public class PortalAddCommentCommandHandler : IRequestHandler<PortalAddCommentCo
         {
             Id = Guid.NewGuid(),
             TicketId = request.TicketId,
-            UserId = Guid.Empty,
+            UserId = null,
             Content = request.Content,
             IsInternal = false
         };
