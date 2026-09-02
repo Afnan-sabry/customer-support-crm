@@ -48,6 +48,8 @@ public class SlaMonitoringService : BackgroundService
             .Select(s => s.Id)
             .ToListAsync(cancellationToken);
 
+        var newBreachLogs = new List<SlaBreachLog>();
+
         var firstResponseBreaches = await context.TicketSlas
             .IgnoreQueryFilters()
             .Where(ts => !ts.FirstResponseBreached && ts.FirstRespondedAt == null && ts.FirstResponseDue < now)
@@ -57,7 +59,7 @@ public class SlaMonitoringService : BackgroundService
         foreach (var sla in firstResponseBreaches)
         {
             sla.FirstResponseBreached = true;
-            context.SlaBreachLogs.Add(new SlaBreachLog
+            var breachLog = new SlaBreachLog
             {
                 Id = Guid.NewGuid(),
                 TenantId = sla.TenantId,
@@ -66,7 +68,9 @@ public class SlaMonitoringService : BackgroundService
                 BreachType = "FirstResponse",
                 DueAt = sla.FirstResponseDue,
                 BreachedAt = now
-            });
+            };
+            context.SlaBreachLogs.Add(breachLog);
+            newBreachLogs.Add(breachLog);
         }
 
         var resolutionBreaches = await context.TicketSlas
@@ -78,7 +82,7 @@ public class SlaMonitoringService : BackgroundService
         foreach (var sla in resolutionBreaches)
         {
             sla.ResolutionBreached = true;
-            context.SlaBreachLogs.Add(new SlaBreachLog
+            var breachLog = new SlaBreachLog
             {
                 Id = Guid.NewGuid(),
                 TenantId = sla.TenantId,
@@ -87,7 +91,9 @@ public class SlaMonitoringService : BackgroundService
                 BreachType = "Resolution",
                 DueAt = sla.ResolutionDue,
                 BreachedAt = now
-            });
+            };
+            context.SlaBreachLogs.Add(breachLog);
+            newBreachLogs.Add(breachLog);
         }
 
         if (firstResponseBreaches.Count > 0 || resolutionBreaches.Count > 0)
@@ -95,6 +101,19 @@ public class SlaMonitoringService : BackgroundService
             await context.SaveChangesAsync(cancellationToken);
             _logger.LogInformation("SLA breaches detected: {FirstResponse} first-response, {Resolution} resolution",
                 firstResponseBreaches.Count, resolutionBreaches.Count);
+
+            var escalationService = scope.ServiceProvider.GetRequiredService<EscalationService>();
+            foreach (var breach in newBreachLogs)
+            {
+                try
+                {
+                    await escalationService.ProcessBreachAsync(breach, cancellationToken);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error processing escalation for breach {BreachId}", breach.Id);
+                }
+            }
         }
     }
 }
