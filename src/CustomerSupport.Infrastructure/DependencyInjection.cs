@@ -6,6 +6,7 @@ using CustomerSupport.Infrastructure.Persistence.Interceptors;
 using CustomerSupport.Infrastructure.Repositories;
 using CustomerSupport.Infrastructure.Services;
 using CustomerSupport.Infrastructure.Services.Channels;
+using CustomerSupport.Infrastructure.Services.Ai;
 using CustomerSupport.Infrastructure.Services.Dispatchers;
 using CustomerSupport.Infrastructure.Services.MockProviders;
 using Microsoft.AspNetCore.Authorization;
@@ -82,6 +83,20 @@ public static class DependencyInjection
         // registered in the API project's Program.cs, not here, because it depends on
         // IHubContext<NotificationHub> and NotificationHub is defined in the API project
         // (Infrastructure cannot reference API).
+
+        // AI Services
+        services.AddSingleton<AiRateLimiter>();
+        services.AddScoped<IPromptTemplateService, PromptTemplateService>();
+
+        // Register AI client based on configuration
+        services.AddScoped<IAiClient>(sp =>
+        {
+            var config = sp.GetRequiredService<IConfiguration>();
+            var provider = config.GetValue<string>("AiSettings:Provider") ?? "AzureOpenAI";
+            if (provider == "Mock")
+                return ActivatorUtilities.CreateInstance<MockAiClient>(sp);
+            return ActivatorUtilities.CreateInstance<AzureOpenAiClient>(sp);
+        });
 
         return services;
     }

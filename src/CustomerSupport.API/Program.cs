@@ -26,6 +26,8 @@ builder.Host.UseSerilog((context, configuration) =>
 builder.Services.AddDomainServices();
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
+builder.Services.Configure<CustomerSupport.Infrastructure.Services.Ai.AiSettings>(
+    builder.Configuration.GetSection("AiSettings"));
 
 // JWT Authentication (dual scheme: Bearer for staff/agents, Portal for customer portal users)
 var jwtKey = new SymmetricSecurityKey(

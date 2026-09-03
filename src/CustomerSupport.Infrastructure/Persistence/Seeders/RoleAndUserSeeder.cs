@@ -17,7 +17,8 @@ public static class RoleAndUserSeeder
     [
         "tickets.view", "tickets.create", "tickets.edit", "tickets.assign",
         "customers.view", "knowledgebase.view", "dashboard.view", "assignment.view",
-        "conversations.view", "conversations.manage", "chat.view", "notifications.view"
+        "conversations.view", "conversations.manage", "chat.view", "notifications.view",
+        "ai.use"
     ];
 
     private static readonly (Guid Id, string Name, string NameAr, string Email, string Password, Guid RoleId)[] DefaultUsers =
