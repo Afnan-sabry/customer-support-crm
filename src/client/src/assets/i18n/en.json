@@ -30,7 +30,11 @@
     "next": "Next",
     "close": "Close",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "export": "Export",
+    "csv": "CSV",
+    "excel": "Excel",
+    "pdf": "PDF"
   },
   "auth": {
     "login": "Login",
@@ -306,5 +310,92 @@
       "Rejected": "Rejected",
       "AutoApplied": "Auto Applied"
     }
+  },
+  "reports": {
+    "title": "Reports & Analytics",
+    "dateRange": "Date Range",
+    "presets": {
+      "today": "Today",
+      "last7": "Last 7 Days",
+      "last30": "Last 30 Days",
+      "thisMonth": "This Month",
+      "thisQuarter": "This Quarter"
+    },
+    "export": "Export",
+    "ticketVolume": {
+      "title": "Ticket Volume",
+      "desc": "Track ticket creation and resolution trends over time",
+      "created": "Created",
+      "resolved": "Resolved",
+      "trend": "Volume Trend",
+      "byCategory": "By Category",
+      "byPriority": "By Priority"
+    },
+    "slaPerformance": {
+      "title": "SLA Performance",
+      "desc": "Monitor first-response and resolution compliance rates",
+      "firstResponse": "First Response Compliance",
+      "resolution": "Resolution Compliance",
+      "trend": "Compliance Trend",
+      "breaches": "Breach Details",
+      "breachType": "Breach Type",
+      "policy": "Policy",
+      "dueAt": "Due At",
+      "breachedAt": "Breached At",
+      "minutesLate": "Minutes Late"
+    },
+    "agentPerformance": {
+      "title": "Agent Performance",
+      "desc": "Compare agent productivity and SLA compliance",
+      "agent": "Agent",
+      "handled": "Tickets Handled",
+      "resolved": "Resolved",
+      "avgResolution": "Avg Resolution (min)",
+      "avgFirstResponse": "Avg First Response (min)",
+      "slaCompliance": "SLA Compliance %",
+      "topPerformer": "Top Performer",
+      "ticketsPerAgent": "Tickets per Agent",
+      "timeComparison": "Time Comparison"
+    },
+    "channelAnalytics": {
+      "title": "Channel Analytics",
+      "desc": "Analyze conversation volumes and response times by channel",
+      "channel": "Channel",
+      "conversations": "Conversations",
+      "messages": "Messages",
+      "avgResponse": "Avg Response (min)",
+      "distribution": "Channel Distribution",
+      "volumeOverTime": "Volume Over Time"
+    },
+    "aiUsage": {
+      "title": "AI Usage",
+      "desc": "Track AI suggestion usage, acceptance rates, and token consumption",
+      "type": "Type",
+      "total": "Total",
+      "accepted": "Accepted",
+      "rejected": "Rejected",
+      "pending": "Pending",
+      "acceptanceRate": "Acceptance Rate",
+      "avgConfidence": "Avg Confidence",
+      "totalTokens": "Total Tokens Used",
+      "byType": "Suggestions by Type",
+      "tokenTrend": "Token Usage Trend"
+    },
+    "csat": {
+      "title": "Customer Satisfaction",
+      "desc": "View customer satisfaction ratings and feedback",
+      "avgRating": "Average Rating",
+      "totalResponses": "Total Responses",
+      "ratingDistribution": "Rating Distribution",
+      "recentFeedback": "Recent Feedback",
+      "rating": "Rating",
+      "comment": "Comment",
+      "submittedAt": "Submitted At",
+      "customer": "Customer",
+      "submitFeedback": "Rate Your Experience",
+      "feedbackSubmitted": "Thank you for your feedback!",
+      "feedbackPlaceholder": "Tell us about your experience (optional)"
+    },
+    "noData": "No data available for the selected period"
   }
 }

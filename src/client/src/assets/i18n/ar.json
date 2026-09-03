@@ -30,7 +30,11 @@
     "next": "التالي",
     "close": "إغلاق",
     "yes": "نعم",
-    "no": "لا"
+    "no": "لا",
+    "export": "تصدير",
+    "csv": "CSV",
+    "excel": "Excel",
+    "pdf": "PDF"
   },
   "auth": {
     "login": "تسجيل الدخول",
@@ -306,5 +310,92 @@
       "Rejected": "مرفوض",
       "AutoApplied": "تطبيق تلقائي"
     }
+  },
+  "reports": {
+    "title": "التقارير والتحليلات",
+    "dateRange": "النطاق الزمني",
+    "presets": {
+      "today": "اليوم",
+      "last7": "آخر 7 أيام",
+      "last30": "آخر 30 يوم",
+      "thisMonth": "هذا الشهر",
+      "thisQuarter": "هذا الربع"
+    },
+    "export": "تصدير",
+    "ticketVolume": {
+      "title": "حجم التذاكر",
+      "desc": "تتبع اتجاهات إنشاء التذاكر وحلها عبر الزمن",
+      "created": "المنشأة",
+      "resolved": "المحلولة",
+      "trend": "اتجاه الحجم",
+      "byCategory": "حسب الفئة",
+      "byPriority": "حسب الأولوية"
+    },
+    "slaPerformance": {
+      "title": "أداء اتفاقية مستوى الخدمة",
+      "desc": "مراقبة معدلات الامتثال للاستجابة الأولى والحل",
+      "firstResponse": "امتثال الاستجابة الأولى",
+      "resolution": "امتثال الحل",
+      "trend": "اتجاه الامتثال",
+      "breaches": "تفاصيل الخروقات",
+      "breachType": "نوع الخرق",
+      "policy": "السياسة",
+      "dueAt": "تاريخ الاستحقاق",
+      "breachedAt": "تاريخ الخرق",
+      "minutesLate": "الدقائق المتأخرة"
+    },
+    "agentPerformance": {
+      "title": "أداء الوكلاء",
+      "desc": "مقارنة إنتاجية الوكلاء وامتثالهم لاتفاقية مستوى الخدمة",
+      "agent": "الوكيل",
+      "handled": "التذاكر المعالجة",
+      "resolved": "المحلولة",
+      "avgResolution": "متوسط الحل (دقيقة)",
+      "avgFirstResponse": "متوسط الاستجابة الأولى (دقيقة)",
+      "slaCompliance": "الامتثال %",
+      "topPerformer": "أفضل أداء",
+      "ticketsPerAgent": "التذاكر لكل وكيل",
+      "timeComparison": "مقارنة الوقت"
+    },
+    "channelAnalytics": {
+      "title": "تحليل القنوات",
+      "desc": "تحليل حجم المحادثات وأوقات الاستجابة حسب القناة",
+      "channel": "القناة",
+      "conversations": "المحادثات",
+      "messages": "الرسائل",
+      "avgResponse": "متوسط الاستجابة (دقيقة)",
+      "distribution": "توزيع القنوات",
+      "volumeOverTime": "الحجم عبر الزمن"
+    },
+    "aiUsage": {
+      "title": "استخدام الذكاء الاصطناعي",
+      "desc": "تتبع استخدام اقتراحات الذكاء الاصطناعي ومعدلات القبول واستهلاك الرموز",
+      "type": "النوع",
+      "total": "الإجمالي",
+      "accepted": "المقبول",
+      "rejected": "المرفوض",
+      "pending": "معلق",
+      "acceptanceRate": "معدل القبول",
+      "avgConfidence": "متوسط الثقة",
+      "totalTokens": "إجمالي الرموز المستخدمة",
+      "byType": "الاقتراحات حسب النوع",
+      "tokenTrend": "اتجاه استخدام الرموز"
+    },
+    "csat": {
+      "title": "رضا العملاء",
+      "desc": "عرض تقييمات رضا العملاء والملاحظات",
+      "avgRating": "متوسط التقييم",
+      "totalResponses": "إجمالي الردود",
+      "ratingDistribution": "توزيع التقييمات",
+      "recentFeedback": "الملاحظات الأخيرة",
+      "rating": "التقييم",
+      "comment": "التعليق",
+      "submittedAt": "تاريخ التقديم",
+      "customer": "العميل",
+      "submitFeedback": "قيّم تجربتك",
+      "feedbackSubmitted": "شكراً لملاحظاتك!",
+      "feedbackPlaceholder": "أخبرنا عن تجربتك (اختياري)"
+    },
+    "noData": "لا توجد بيانات للفترة المحددة"
   }
 }
