@@ -33,6 +33,7 @@ public class WebhookDispatcher : IWebhookDispatcher
         var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
         var subscriptions = await context.WebhookSubscriptions
+            .IgnoreQueryFilters()
             .Where(s => s.TenantId == tenantId && s.IsActive)
             .ToListAsync();
 

@@ -5,6 +5,7 @@ using CustomerSupport.Domain.Interfaces;
 using CustomerSupport.Infrastructure.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace CustomerSupport.Application.Tickets.Commands;
 
@@ -16,15 +17,18 @@ public class UpdateTicketStatusCommandHandler : IRequestHandler<UpdateTicketStat
     private readonly AppDbContext _context;
     private readonly ICurrentUserService _currentUserService;
     private readonly IPublisher _publisher;
+    private readonly ILogger<UpdateTicketStatusCommandHandler> _logger;
 
     public UpdateTicketStatusCommandHandler(
         ITicketRepository ticketRepository, AppDbContext context,
-        ICurrentUserService currentUserService, IPublisher publisher)
+        ICurrentUserService currentUserService, IPublisher publisher,
+        ILogger<UpdateTicketStatusCommandHandler> logger)
     {
         _ticketRepository = ticketRepository;
         _context = context;
         _currentUserService = currentUserService;
         _publisher = publisher;
+        _logger = logger;
     }
 
     public async Task<Result> Handle(UpdateTicketStatusCommand request, CancellationToken cancellationToken)
@@ -55,7 +59,10 @@ public class UpdateTicketStatusCommandHandler : IRequestHandler<UpdateTicketStat
             await _publisher.Publish(new TicketStatusChangedNotification(
                 ticket.Id, ticket.TenantId, oldStatusId, request.StatusId), cancellationToken);
         }
-        catch { }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Failed to publish TicketStatusChangedNotification for ticket {TicketId}", ticket.Id);
+        }
 
         return Result.Success();
     }
