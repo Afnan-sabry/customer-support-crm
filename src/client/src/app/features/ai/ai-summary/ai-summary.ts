@@ -1,14 +1,15 @@
 import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { AiService } from '../ai.service';
 
 @Component({
   selector: 'app-ai-summary',
-  imports: [TranslateModule, MatCardModule, MatButtonModule, MatIconModule, MatProgressSpinnerModule],
+  imports: [TranslateModule, MatCardModule, MatButtonModule, MatIconModule, MatProgressSpinnerModule, MatSnackBarModule],
   template: `
     <mat-card>
       <mat-card-header>
@@ -45,6 +46,8 @@ import { AiService } from '../ai.service';
 })
 export class AiSummaryComponent {
   private aiService = inject(AiService);
+  private snackBar = inject(MatSnackBar);
+  private translate = inject(TranslateService);
 
   @Input() ticketId = '';
   @Input() summary: string | null = null;
@@ -61,7 +64,10 @@ export class AiSummaryComponent {
         this.loading = false;
         this.summaryGenerated.emit(result.summary);
       },
-      error: () => { this.loading = false; }
+      error: () => {
+        this.loading = false;
+        this.snackBar.open(this.translate.instant('ai.error'), this.translate.instant('common.close'), { duration: 5000 });
+      }
     });
   }
 }

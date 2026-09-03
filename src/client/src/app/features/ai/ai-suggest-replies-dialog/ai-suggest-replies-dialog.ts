@@ -1,14 +1,15 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { AiService } from '../ai.service';
 
 @Component({
   selector: 'app-ai-suggest-replies-dialog',
-  imports: [TranslateModule, MatDialogModule, MatButtonModule, MatIconModule, MatProgressSpinnerModule],
+  imports: [TranslateModule, MatDialogModule, MatButtonModule, MatIconModule, MatProgressSpinnerModule, MatSnackBarModule],
   template: `
     <h2 mat-dialog-title>
       <mat-icon>auto_awesome</mat-icon>
@@ -51,6 +52,8 @@ export class AiSuggestRepliesDialogComponent implements OnInit {
   private aiService = inject(AiService);
   private dialogRef = inject(MatDialogRef<AiSuggestRepliesDialogComponent>);
   private data: { ticketId: string } = inject(MAT_DIALOG_DATA);
+  private snackBar = inject(MatSnackBar);
+  private translate = inject(TranslateService);
 
   suggestions: string[] = [];
   loading = true;
@@ -61,7 +64,10 @@ export class AiSuggestRepliesDialogComponent implements OnInit {
         this.suggestions = result.suggestions;
         this.loading = false;
       },
-      error: () => { this.loading = false; }
+      error: () => {
+        this.loading = false;
+        this.snackBar.open(this.translate.instant('ai.error'), this.translate.instant('common.close'), { duration: 5000 });
+      }
     });
   }
 

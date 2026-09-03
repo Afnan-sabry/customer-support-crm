@@ -143,33 +143,8 @@ public class AiTicketService : IAiTicketService
             var ticketToUpdate = await _context.Tickets.FindAsync([ticketId], ct);
             if (ticketToUpdate is not null)
             {
-                if (categoryId.HasValue)
-                {
-                    _context.Set<TicketHistory>().Add(new TicketHistory
-                    {
-                        Id = Guid.NewGuid(),
-                        TicketId = ticketId,
-                        Field = "CategoryId",
-                        OldValue = ticketToUpdate.CategoryId.ToString(),
-                        NewValue = categoryId.Value.ToString(),
-                        CreatedAt = _dateTimeService.UtcNow
-                    });
-                    ticketToUpdate.CategoryId = categoryId.Value;
-                }
-
-                if (priorityId.HasValue)
-                {
-                    _context.Set<TicketHistory>().Add(new TicketHistory
-                    {
-                        Id = Guid.NewGuid(),
-                        TicketId = ticketId,
-                        Field = "PriorityId",
-                        OldValue = ticketToUpdate.PriorityId.ToString(),
-                        NewValue = priorityId.Value.ToString(),
-                        CreatedAt = _dateTimeService.UtcNow
-                    });
-                    ticketToUpdate.PriorityId = priorityId.Value;
-                }
+                await CategorizationApplyHelper.ApplyCategorizationAsync(
+                    response.Content, ticketToUpdate, _context, _dateTimeService, ct);
             }
         }
 

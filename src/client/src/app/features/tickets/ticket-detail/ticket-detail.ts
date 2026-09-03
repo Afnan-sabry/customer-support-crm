@@ -14,6 +14,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { TranslateService } from '@ngx-translate/core';
 import { forkJoin } from 'rxjs';
 import {
   TicketsService, TicketDetailDto, TicketStatusDto, TicketPriorityDto
@@ -30,7 +32,7 @@ import { AiSuggestRepliesDialogComponent } from '../../ai/ai-suggest-replies-dia
     RouterLink, ReactiveFormsModule, TranslateModule, DatePipe,
     MatCardModule, MatTableModule, MatButtonModule, MatIconModule, MatChipsModule,
     MatFormFieldModule, MatInputModule, MatSelectModule, MatCheckboxModule, MatTabsModule,
-    AiSuggestionPanelComponent, AiSummaryComponent
+    MatSnackBarModule, AiSuggestionPanelComponent, AiSummaryComponent
   ],
   template: `
     @if (ticket) {
@@ -268,6 +270,8 @@ export class TicketDetailComponent implements OnInit {
   private fb = inject(FormBuilder);
   private aiService = inject(AiService);
   private dialog = inject(MatDialog);
+  private snackBar = inject(MatSnackBar);
+  private translate = inject(TranslateService);
 
   ticket: TicketDetailDto | null = null;
   statuses: TicketStatusDto[] = [];
@@ -334,7 +338,10 @@ export class TicketDetailComponent implements OnInit {
         this.categorizing = false;
         this.loadTicket(this.ticket!.id);
       },
-      error: () => { this.categorizing = false; }
+      error: () => {
+        this.categorizing = false;
+        this.snackBar.open(this.translate.instant('ai.error'), this.translate.instant('common.close'), { duration: 5000 });
+      }
     });
   }
 

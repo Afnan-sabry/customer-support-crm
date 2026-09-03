@@ -1,7 +1,7 @@
 using CustomerSupport.Application.Common.Models;
-using CustomerSupport.Domain.Entities;
 using CustomerSupport.Domain.Interfaces;
 using CustomerSupport.Infrastructure.Persistence;
+using CustomerSupport.Infrastructure.Services.Ai;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,42 +35,20 @@ public class AcceptAiSuggestionCommandHandler : IRequestHandler<AcceptAiSuggesti
         {
             try
             {
-                using var doc = System.Text.Json.JsonDocument.Parse(suggestion.Output);
-                var root = doc.RootElement;
-
                 var ticket = await _context.Tickets.FindAsync([suggestion.TicketId], cancellationToken);
                 if (ticket is not null)
                 {
-                    if (root.TryGetProperty("categoryId", out var catEl) && Guid.TryParse(catEl.GetString(), out var catId))
-                    {
-                        _context.Set<TicketHistory>().Add(new TicketHistory
-                        {
-                            Id = Guid.NewGuid(),
-                            TicketId = ticket.Id,
-                            Field = "CategoryId",
-                            OldValue = ticket.CategoryId.ToString(),
-                            NewValue = catId.ToString(),
-                            CreatedAt = _dateTimeService.UtcNow
-                        });
-                        ticket.CategoryId = catId;
-                    }
-
-                    if (root.TryGetProperty("priorityId", out var priEl) && Guid.TryParse(priEl.GetString(), out var priId))
-                    {
-                        _context.Set<TicketHistory>().Add(new TicketHistory
-                        {
-                            Id = Guid.NewGuid(),
-                            TicketId = ticket.Id,
-                            Field = "PriorityId",
-                            OldValue = ticket.PriorityId.ToString(),
-                            NewValue = priId.ToString(),
-                            CreatedAt = _dateTimeService.UtcNow
-                        });
-                        ticket.PriorityId = priId;
-                    }
+                    await CategorizationApplyHelper.ApplyCategorizationAsync(
+                        suggestion.Output, ticket, _context, _dateTimeService, cancellationToken);
                 }
             }
-            catch (System.Text.Json.JsonException) { }
+            catch (System.Text.Json.JsonException)
+            {
+                suggestion.Status = "Pending";
+                suggestion.AppliedAt = null;
+                await _context.SaveChangesAsync(cancellationToken);
+                return Result.Failure(["Failed to parse AI suggestion output — suggestion was not applied"]);
+            }
         }
 
         await _context.SaveChangesAsync(cancellationToken);

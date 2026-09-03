@@ -23,13 +23,13 @@ import { AiService, AiSuggestionDto } from '../ai.service';
           @for (suggestion of suggestions; track suggestion.id) {
             <div class="suggestion-item">
               <div class="suggestion-header">
-                <mat-chip>{{ suggestion.type }}</mat-chip>
+                <mat-chip>{{ 'ai.type.' + suggestion.type | translate }}</mat-chip>
                 @if (suggestion.confidence !== null) {
                   <mat-chip [color]="getConfidenceColor(suggestion.confidence)" selected>
                     {{ (suggestion.confidence * 100).toFixed(0) }}%
                   </mat-chip>
                 }
-                <span class="suggestion-status">{{ suggestion.status }}</span>
+                <span class="suggestion-status">{{ 'ai.status.' + suggestion.status | translate }}</span>
                 <span class="suggestion-date">{{ suggestion.createdAt | date: 'short' }}</span>
               </div>
               <p class="suggestion-output">{{ suggestion.output }}</p>

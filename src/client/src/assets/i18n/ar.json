@@ -293,6 +293,18 @@
     "reject": "رفض",
     "useReply": "استخدام الرد",
     "generating": "جاري إنشاء الاقتراحات...",
-    "noSuggestions": "لم يتم إنشاء اقتراحات"
+    "noSuggestions": "لم يتم إنشاء اقتراحات",
+    "error": "فشلت عملية الذكاء الاصطناعي. يرجى المحاولة مرة أخرى.",
+    "type": {
+      "Categorization": "التصنيف",
+      "Summary": "الملخص",
+      "SuggestedReplies": "الردود المقترحة"
+    },
+    "status": {
+      "Pending": "قيد الانتظار",
+      "Accepted": "مقبول",
+      "Rejected": "مرفوض",
+      "AutoApplied": "تطبيق تلقائي"
+    }
   }
 }

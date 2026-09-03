@@ -293,6 +293,18 @@
     "reject": "Reject",
     "useReply": "Use Reply",
     "generating": "Generating suggestions...",
-    "noSuggestions": "No suggestions could be generated"
+    "noSuggestions": "No suggestions could be generated",
+    "error": "AI operation failed. Please try again.",
+    "type": {
+      "Categorization": "Categorization",
+      "Summary": "Summary",
+      "SuggestedReplies": "Suggested Replies"
+    },
+    "status": {
+      "Pending": "Pending",
+      "Accepted": "Accepted",
+      "Rejected": "Rejected",
+      "AutoApplied": "Auto Applied"
+    }
   }
 }

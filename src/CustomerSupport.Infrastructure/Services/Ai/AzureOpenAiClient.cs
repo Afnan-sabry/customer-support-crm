@@ -18,6 +18,10 @@ public class AzureOpenAiClient : IAiClient
     {
         _settings = settings.Value;
         _logger = logger;
+
+        if (string.IsNullOrWhiteSpace(_settings.Endpoint) || string.IsNullOrWhiteSpace(_settings.ApiKey))
+            throw new InvalidOperationException("AiSettings.Endpoint and AiSettings.ApiKey must be configured when using AzureOpenAI provider.");
+
         _client = new AzureOpenAIClient(
             new Uri(_settings.Endpoint),
             new ApiKeyCredential(_settings.ApiKey));
