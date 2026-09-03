@@ -9,6 +9,10 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       {
+        path: 'dashboard',
+        loadChildren: () => import('./features/dashboard/dashboard.routes').then(m => m.dashboardRoutes)
+      },
+      {
         path: 'users',
         loadChildren: () => import('./features/users/users.routes').then(m => m.usersRoutes)
       },
@@ -24,13 +28,36 @@ export const routes: Routes = [
         path: 'tickets',
         loadChildren: () => import('./features/tickets/tickets.routes').then(m => m.ticketsRoutes)
       },
+      {
+        path: 'knowledge',
+        loadChildren: () => import('./features/knowledge/knowledge.routes').then(m => m.knowledgeRoutes)
+      },
+      {
+        path: 'sla',
+        loadChildren: () => import('./features/sla/sla.routes').then(m => m.slaRoutes)
+      },
+      {
+        path: 'escalation',
+        loadChildren: () => import('./features/escalation/escalation.routes').then(m => m.escalationRoutes)
+      },
+      {
+        path: 'assignment',
+        loadChildren: () => import('./features/assignment/assignment.routes').then(m => m.assignmentRoutes)
+      },
+      {
+        path: 'chat',
+        loadChildren: () => import('./features/chat/chat.routes').then(m => m.chatRoutes)
+      },
     ]
   },
   {
     path: 'portal',
     loadComponent: () => import('./layouts/portal-layout/portal-layout').then(m => m.PortalLayoutComponent),
     children: [
-      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      {
+        path: '',
+        loadChildren: () => import('./features/portal/portal.routes').then(m => m.portalRoutes)
+      }
     ]
   },
   {

@@ -29,6 +29,21 @@ public static class PermissionSeeder
         ("knowledgebase.manage", "KnowledgeBase", "Manage knowledge base articles"),
         ("reports.view", "Reports", "View reports"),
         ("settings.manage", "Settings", "Manage system settings"),
+        ("sla.view", "SLA", "View SLA policies"),
+        ("sla.manage", "SLA", "Manage SLA policies"),
+        ("escalation.view", "Escalation", "View escalation rules"),
+        ("escalation.manage", "Escalation", "Manage escalation rules"),
+        ("assignment.view", "Assignment", "View assignment rules"),
+        ("assignment.manage", "Assignment", "Manage assignment rules"),
+        ("dashboard.view", "Dashboard", "View agent dashboard"),
+        ("conversations.view", "Conversations", "View conversations"),
+        ("conversations.manage", "Conversations", "Manage conversations"),
+        ("chat.view", "Chat", "View live chat"),
+        ("chat.manage", "Chat", "Manage live chat sessions"),
+        ("portal.access", "Portal", "Access the customer portal"),
+        ("notifications.view", "Notifications", "View notifications"),
+        ("ai.use", "AI", "Trigger AI features"),
+        ("ai.manage", "AI", "Configure AI settings"),
     ];
 
     public static async Task SeedAsync(AppDbContext context)

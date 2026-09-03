@@ -1,0 +1,74 @@
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
+
+namespace CustomerSupport.Infrastructure.Persistence.Migrations
+{
+    /// <inheritdoc />
+    public partial class AddAssignmentRules : Migration
+    {
+        /// <inheritdoc />
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.CreateTable(
+                name: "AssignmentRules",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    NameAr = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    PriorityId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Strategy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    AgentPool = table.Column<string>(type: "nvarchar(4000)", maxLength: 4000, nullable: true),
+                    LastAssignedIndex = table.Column<int>(type: "int", nullable: false),
+                    Order = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AssignmentRules", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AssignmentRules_TicketCategories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "TicketCategories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                    table.ForeignKey(
+                        name: "FK_AssignmentRules_TicketPriorities_PriorityId",
+                        column: x => x.PriorityId,
+                        principalTable: "TicketPriorities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AssignmentRules_CategoryId",
+                table: "AssignmentRules",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AssignmentRules_PriorityId",
+                table: "AssignmentRules",
+                column: "PriorityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AssignmentRules_TenantId_Order",
+                table: "AssignmentRules",
+                columns: new[] { "TenantId", "Order" });
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                name: "AssignmentRules");
+        }
+    }
+}
