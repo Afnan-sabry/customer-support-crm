@@ -9,6 +9,7 @@ using CustomerSupport.Infrastructure.Services.Channels;
 using CustomerSupport.Infrastructure.Services.Ai;
 using CustomerSupport.Infrastructure.Services.Dispatchers;
 using CustomerSupport.Infrastructure.Services.MockProviders;
+using CustomerSupport.Infrastructure.Services.Reports;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -100,6 +101,9 @@ public static class DependencyInjection
 
         services.AddScoped<IAiTicketService, AiTicketService>();
         services.AddScoped<IAiChatbotService, AiChatbotService>();
+
+        // Report Services
+        services.AddScoped<IReportExportService, ReportExportService>();
 
         return services;
     }

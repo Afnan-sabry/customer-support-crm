@@ -44,6 +44,9 @@ public static class PermissionSeeder
         ("notifications.view", "Notifications", "View notifications"),
         ("ai.use", "AI", "Trigger AI features"),
         ("ai.manage", "AI", "Configure AI settings"),
+        ("reports.export", "Reports", "Export reports to CSV/Excel/PDF"),
+        ("integrations.view", "Integrations", "View integration configurations"),
+        ("integrations.manage", "Integrations", "Manage webhook subscriptions and ERP settings"),
     ];
 
     public static async Task SeedAsync(AppDbContext context)
