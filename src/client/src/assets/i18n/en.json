@@ -405,5 +405,28 @@
       "feedbackPlaceholder": "Tell us about your experience (optional)"
     },
     "noData": "No data available for the selected period"
+  },
+  "integrations": {
+    "title": "Integrations",
+    "webhookSubscriptions": "Webhook Subscriptions",
+    "createSubscription": "New Subscription",
+    "editSubscription": "Edit Subscription",
+    "name": "Name",
+    "url": "URL",
+    "secret": "Secret",
+    "generateSecret": "Generate Secret",
+    "events": "Events",
+    "active": "Active",
+    "event": "Event",
+    "statusCode": "Status Code",
+    "success": "Success",
+    "attempt": "Attempt",
+    "timestamp": "Timestamp",
+    "deliveryLog": "Delivery Log",
+    "loadMore": "Load More",
+    "erpStatus": "ERP Integration",
+    "provider": "Provider",
+    "connectionStatus": "Status",
+    "testSent": "Test webhook sent"
   }
 }

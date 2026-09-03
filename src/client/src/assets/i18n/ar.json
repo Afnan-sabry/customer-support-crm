@@ -405,5 +405,28 @@
       "feedbackPlaceholder": "أخبرنا عن تجربتك (اختياري)"
     },
     "noData": "لا توجد بيانات للفترة المحددة"
+  },
+  "integrations": {
+    "title": "التكاملات",
+    "webhookSubscriptions": "اشتراكات الويب هوك",
+    "createSubscription": "اشتراك جديد",
+    "editSubscription": "تعديل الاشتراك",
+    "name": "الاسم",
+    "url": "الرابط",
+    "secret": "المفتاح السري",
+    "generateSecret": "توليد المفتاح",
+    "events": "الأحداث",
+    "active": "نشط",
+    "event": "الحدث",
+    "statusCode": "رمز الحالة",
+    "success": "نجاح",
+    "attempt": "المحاولة",
+    "timestamp": "الوقت",
+    "deliveryLog": "سجل التسليم",
+    "loadMore": "تحميل المزيد",
+    "erpStatus": "تكامل ERP",
+    "provider": "المزود",
+    "connectionStatus": "الحالة",
+    "testSent": "تم إرسال اختبار الويب هوك"
   }
 }
