@@ -28,6 +28,7 @@
     "confirm": "Confirm",
     "back": "Back",
     "next": "Next",
+    "close": "Close",
     "yes": "Yes",
     "no": "No"
   },
@@ -232,7 +233,12 @@
     "endChat": "End Chat",
     "typeMessage": "Type a message...",
     "typing": "Typing...",
-    "selectSession": "Select a chat session to start"
+    "selectSession": "Select a chat session to start",
+    "bot": {
+      "name": "Support Bot",
+      "connecting": "Connecting you to an agent...",
+      "greeting": "Hello! I'm your support assistant. How can I help?"
+    }
   },
   "notifications": {
     "title": "Notifications",
@@ -275,5 +281,30 @@
     "chatIntro": "Start a live chat with our support team.",
     "chatStart": "Start Chat",
     "chatWaiting": "Waiting for an agent to join..."
+  },
+  "ai": {
+    "suggestions": "AI Suggestions",
+    "summary": "AI Summary",
+    "noSummary": "No summary generated yet",
+    "generateSummary": "Generate Summary",
+    "categorize": "AI Categorize",
+    "suggestReplies": "Suggest Replies",
+    "accept": "Accept",
+    "reject": "Reject",
+    "useReply": "Use Reply",
+    "generating": "Generating suggestions...",
+    "noSuggestions": "No suggestions could be generated",
+    "error": "AI operation failed. Please try again.",
+    "type": {
+      "Categorization": "Categorization",
+      "Summary": "Summary",
+      "SuggestedReplies": "Suggested Replies"
+    },
+    "status": {
+      "Pending": "Pending",
+      "Accepted": "Accepted",
+      "Rejected": "Rejected",
+      "AutoApplied": "Auto Applied"
+    }
   }
 }

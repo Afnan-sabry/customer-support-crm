@@ -42,6 +42,8 @@ public static class PermissionSeeder
         ("chat.manage", "Chat", "Manage live chat sessions"),
         ("portal.access", "Portal", "Access the customer portal"),
         ("notifications.view", "Notifications", "View notifications"),
+        ("ai.use", "AI", "Trigger AI features"),
+        ("ai.manage", "AI", "Configure AI settings"),
     ];
 
     public static async Task SeedAsync(AppDbContext context)
