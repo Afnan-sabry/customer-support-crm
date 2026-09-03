@@ -2,7 +2,9 @@ using CustomerSupport.Domain.Entities;
 using CustomerSupport.Domain.Enums;
 using CustomerSupport.Domain.Interfaces;
 using CustomerSupport.Infrastructure.Persistence;
+using CustomerSupport.Infrastructure.Services.Ai;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace CustomerSupport.Infrastructure.Services;
 
@@ -10,11 +12,16 @@ public class ChatSessionService : IChatSessionService
 {
     private readonly AppDbContext _context;
     private readonly IDateTimeService _dateTimeService;
+    private readonly AiSettings _aiSettings;
 
-    public ChatSessionService(AppDbContext context, IDateTimeService dateTimeService)
+    public ChatSessionService(
+        AppDbContext context,
+        IDateTimeService dateTimeService,
+        IOptions<AiSettings> aiSettings)
     {
         _context = context;
         _dateTimeService = dateTimeService;
+        _aiSettings = aiSettings.Value;
     }
 
     public async Task<Conversation> StartSessionAsync(Guid customerId, Guid tenantId, string? subject = null)

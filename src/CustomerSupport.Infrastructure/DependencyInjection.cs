@@ -99,6 +99,7 @@ public static class DependencyInjection
         });
 
         services.AddScoped<IAiTicketService, AiTicketService>();
+        services.AddScoped<IAiChatbotService, AiChatbotService>();
 
         return services;
     }

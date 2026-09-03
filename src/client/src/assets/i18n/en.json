@@ -233,7 +233,12 @@
     "endChat": "End Chat",
     "typeMessage": "Type a message...",
     "typing": "Typing...",
-    "selectSession": "Select a chat session to start"
+    "selectSession": "Select a chat session to start",
+    "bot": {
+      "name": "Support Bot",
+      "connecting": "Connecting you to an agent...",
+      "greeting": "Hello! I'm your support assistant. How can I help?"
+    }
   },
   "notifications": {
     "title": "Notifications",
