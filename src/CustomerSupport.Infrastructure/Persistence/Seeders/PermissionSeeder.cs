@@ -36,6 +36,12 @@ public static class PermissionSeeder
         ("assignment.view", "Assignment", "View assignment rules"),
         ("assignment.manage", "Assignment", "Manage assignment rules"),
         ("dashboard.view", "Dashboard", "View agent dashboard"),
+        ("conversations.view", "Conversations", "View conversations"),
+        ("conversations.manage", "Conversations", "Manage conversations"),
+        ("chat.view", "Chat", "View live chat"),
+        ("chat.manage", "Chat", "Manage live chat sessions"),
+        ("portal.access", "Portal", "Access the customer portal"),
+        ("notifications.view", "Notifications", "View notifications"),
     ];
 
     public static async Task SeedAsync(AppDbContext context)

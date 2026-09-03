@@ -90,10 +90,12 @@ public class TicketsController : ControllerBase
     }
 
     [HttpGet("categories")]
+    [AllowAnonymous]
     public async Task<ActionResult<List<TicketCategoryDto>>> GetCategories()
         => Ok(await _mediator.Send(new GetTicketCategoriesQuery()));
 
     [HttpGet("priorities")]
+    [AllowAnonymous]
     public async Task<ActionResult<List<TicketPriorityDto>>> GetPriorities()
         => Ok(await _mediator.Send(new GetTicketPrioritiesQuery()));
 

@@ -14,6 +14,6 @@ public class TicketCommentConfiguration : IEntityTypeConfiguration<TicketComment
 
         builder.HasIndex(c => c.TicketId);
 
-        builder.HasOne(c => c.User).WithMany().HasForeignKey(c => c.UserId).OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne(c => c.User).WithMany().HasForeignKey(c => c.UserId).IsRequired(false).OnDelete(DeleteBehavior.Restrict);
     }
 }

@@ -12,7 +12,9 @@
     "reports": "التقارير",
     "settings": "الإعدادات",
     "users": "المستخدمون",
-    "roles": "الأدوار"
+    "roles": "الأدوار",
+    "chat": "المحادثة المباشرة",
+    "conversations": "المحادثات"
   },
   "common": {
     "save": "حفظ",
@@ -219,5 +221,59 @@
     "allAgents": "جميع الوكلاء",
     "order": "الترتيب",
     "deleteConfirm": "هل أنت متأكد من إلغاء تنشيط قاعدة التعيين؟"
+  },
+  "chat": {
+    "title": "المحادثة المباشرة",
+    "activeSessions": "الجلسات النشطة",
+    "noSessions": "لا توجد جلسات محادثة نشطة",
+    "noSubject": "بدون موضوع",
+    "unassigned": "غير مسندة",
+    "accept": "قبول",
+    "endChat": "إنهاء المحادثة",
+    "typeMessage": "اكتب رسالة...",
+    "typing": "يكتب...",
+    "selectSession": "اختر جلسة محادثة للبدء"
+  },
+  "notifications": {
+    "title": "الإشعارات",
+    "markAllRead": "تحديد الكل كمقروء",
+    "noNotifications": "لا توجد إشعارات"
+  },
+  "portal": {
+    "title": "بوابة العملاء",
+    "loginSubtitle": "سجّل الدخول إلى حسابك",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "login": "تسجيل الدخول",
+    "needAccount": "ليس لديك حساب؟ سجّل الآن",
+    "haveAccount": "لديك حساب بالفعل؟ سجّل الدخول",
+    "registerTitle": "إنشاء حساب",
+    "registerSubtitle": "سجّل لإرسال ومتابعة تذاكر الدعم",
+    "register": "تسجيل",
+    "fullName": "الاسم الكامل",
+    "fullNameAr": "الاسم الكامل (بالعربية)",
+    "phone": "الهاتف",
+    "welcome": "مرحبًا، {{name}}",
+    "submitTicket": "إرسال تذكرة",
+    "myTickets": "تذاكري",
+    "browseKnowledge": "تصفح قاعدة المعرفة",
+    "searchHelp": "ابحث عن مساعدة",
+    "searchPlaceholder": "ابحث في المقالات...",
+    "noResults": "لم يتم العثور على مقالات",
+    "recentTickets": "التذاكر الأخيرة",
+    "noTickets": "لا توجد لديك تذاكر بعد",
+    "knowledgeTitle": "قاعدة المعرفة",
+    "profileTitle": "ملفي الشخصي",
+    "newPassword": "كلمة مرور جديدة",
+    "newPasswordHint": "اتركه فارغًا للاحتفاظ بكلمة المرور الحالية",
+    "profileUpdated": "تم تحديث الملف الشخصي بنجاح",
+    "navHome": "الرئيسية",
+    "navTickets": "تذاكري",
+    "navKnowledge": "قاعدة المعرفة",
+    "navProfile": "الملف الشخصي",
+    "chatTitle": "الدردشة مع الدعم",
+    "chatIntro": "ابدأ محادثة مباشرة مع فريق الدعم لدينا.",
+    "chatStart": "بدء المحادثة",
+    "chatWaiting": "في انتظار انضمام أحد الوكلاء..."
   }
 }

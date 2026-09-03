@@ -39,6 +39,12 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
     public DbSet<AssignmentRule> AssignmentRules => Set<AssignmentRule>();
     public DbSet<KnowledgeCategory> KnowledgeCategories => Set<KnowledgeCategory>();
     public DbSet<KnowledgeArticle> KnowledgeArticles => Set<KnowledgeArticle>();
+    public DbSet<Conversation> Conversations => Set<Conversation>();
+    public DbSet<Message> Messages => Set<Message>();
+    public DbSet<MessageAttachment> MessageAttachments => Set<MessageAttachment>();
+    public DbSet<PortalUser> PortalUsers => Set<PortalUser>();
+    public DbSet<NotificationTemplate> NotificationTemplates => Set<NotificationTemplate>();
+    public DbSet<Notification> Notifications => Set<Notification>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -52,7 +58,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
         // Guid.Empty. Applying the filter here would make FindByEmailAsync return no
         // rows for any real user. Tenant isolation for Identity entities is enforced
         // explicitly in Application-layer query handlers instead.
-        var identityTypes = new[] { typeof(ApplicationUser), typeof(ApplicationRole) };
+        var identityTypes = new[] { typeof(ApplicationUser), typeof(ApplicationRole), typeof(PortalUser) };
 
         // Global query filter for tenant isolation on all other ITenantEntity types
         foreach (var entityType in modelBuilder.Model.GetEntityTypes())

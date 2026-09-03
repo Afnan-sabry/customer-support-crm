@@ -69,6 +69,6 @@ public class AddTicketCommentCommandHandler : IRequestHandler<AddTicketCommentCo
             }
         }
 
-        return new TicketCommentDto(comment.Id, comment.UserId, userName, comment.Content, comment.IsInternal, comment.CreatedAt);
+        return new TicketCommentDto(comment.Id, comment.UserId ?? Guid.Empty, userName, comment.Content, comment.IsInternal, comment.CreatedAt);
     }
 }

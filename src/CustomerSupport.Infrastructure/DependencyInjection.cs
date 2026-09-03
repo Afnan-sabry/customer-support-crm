@@ -5,6 +5,9 @@ using CustomerSupport.Infrastructure.Persistence;
 using CustomerSupport.Infrastructure.Persistence.Interceptors;
 using CustomerSupport.Infrastructure.Repositories;
 using CustomerSupport.Infrastructure.Services;
+using CustomerSupport.Infrastructure.Services.Channels;
+using CustomerSupport.Infrastructure.Services.Dispatchers;
+using CustomerSupport.Infrastructure.Services.MockProviders;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -41,10 +44,13 @@ public static class DependencyInjection
         services.AddScoped<ICurrentUserService, CurrentUserService>();
         services.AddSingleton<IDateTimeService, DateTimeService>();
         services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IPortalTokenService, PortalTokenService>();
         services.AddScoped<ICustomerRepository, CustomerRepository>();
         services.AddScoped<ITicketRepository, TicketRepository>();
         services.AddScoped<ISlaRepository, SlaRepository>();
         services.AddScoped<IKnowledgeRepository, KnowledgeRepository>();
+        services.AddScoped<IConversationRepository, ConversationRepository>();
+        services.AddScoped<IChannelProviderFactory, ChannelProviderFactory>();
 
         services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
         services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
@@ -52,6 +58,30 @@ public static class DependencyInjection
         services.AddScoped<EscalationService>();
         services.AddScoped<AssignmentService>();
         services.AddHostedService<SlaMonitoringService>();
+
+        services.AddScoped<IEmailSender, MockEmailSender>();
+        services.AddScoped<IChannelProvider, EmailChannelProvider>();
+
+        services.AddScoped<IWhatsAppClient, MockWhatsAppClient>();
+        services.AddScoped<IChannelProvider, WhatsAppChannelProvider>();
+
+        services.AddScoped<IChatSessionService, ChatSessionService>();
+
+        // Note: LiveChatChannelProvider (IChannelProvider for ChannelType.LiveChat) is registered
+        // in the API project's Program.cs, not here, because it depends on IHubContext<ChatHub>
+        // and ChatHub is defined in the API project (Infrastructure cannot reference API).
+
+        services.AddScoped<ISmsClient, MockSmsClient>();
+        services.AddScoped<IChannelProvider, SmsChannelProvider>();
+
+        services.AddScoped<INotificationService, NotificationService>();
+        services.AddScoped<INotificationDispatcher, EmailNotificationDispatcher>();
+        services.AddScoped<INotificationDispatcher, SmsNotificationDispatcher>();
+
+        // Note: InAppNotificationDispatcher (INotificationDispatcher for the "InApp" channel) is
+        // registered in the API project's Program.cs, not here, because it depends on
+        // IHubContext<NotificationHub> and NotificationHub is defined in the API project
+        // (Infrastructure cannot reference API).
 
         return services;
     }

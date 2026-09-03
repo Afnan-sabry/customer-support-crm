@@ -4,7 +4,13 @@ using CustomerSupport.Domain;
 using CustomerSupport.Infrastructure;
 using CustomerSupport.Infrastructure.Persistence;
 using CustomerSupport.Infrastructure.Persistence.Seeders;
+using CustomerSupport.Domain.Entities;
+using CustomerSupport.Domain.Interfaces;
 using CustomerSupport.API.Middleware;
+using CustomerSupport.API.Hubs;
+using CustomerSupport.API.Services;
+using CustomerSupport.API.Services.Channels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -21,7 +27,10 @@ builder.Services.AddDomainServices();
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
-// JWT Authentication
+// JWT Authentication (dual scheme: Bearer for staff/agents, Portal for customer portal users)
+var jwtKey = new SymmetricSecurityKey(
+    Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Secret"]!));
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -37,8 +46,48 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
         ValidAudience = builder.Configuration["JwtSettings:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Secret"]!))
+        IssuerSigningKey = jwtKey
+    };
+
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            var accessToken = context.Request.Query["access_token"];
+            var path = context.HttpContext.Request.Path;
+            if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs"))
+            {
+                context.Token = accessToken;
+            }
+            return Task.CompletedTask;
+        }
+    };
+})
+.AddJwtBearer("Portal", options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
+        ValidAudience = "portal",
+        IssuerSigningKey = jwtKey
+    };
+
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            var accessToken = context.Request.Query["access_token"];
+            var path = context.HttpContext.Request.Path;
+            if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs"))
+            {
+                context.Token = accessToken;
+            }
+            return Task.CompletedTask;
+        }
     };
 });
 
@@ -90,6 +139,10 @@ builder.Services.AddSwaggerGen(options =>
 // Health checks
 builder.Services.AddHealthChecks();
 
+builder.Services.AddSignalR();
+builder.Services.AddScoped<IChannelProvider, LiveChatChannelProvider>();
+builder.Services.AddScoped<INotificationDispatcher, InAppNotificationDispatcher>();
+
 var app = builder.Build();
 
 // Auto-apply migrations in development
@@ -101,6 +154,11 @@ if (app.Environment.IsDevelopment())
     await DefaultTenantSeeder.SeedAsync(db);
     await PermissionSeeder.SeedAsync(db);
     await TicketReferenceDataSeeder.SeedAsync(db, DefaultTenantSeeder.DefaultTenantId);
+
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
+    await RoleAndUserSeeder.SeedAsync(db, userManager, roleManager, DefaultTenantSeeder.DefaultTenantId);
+    await NotificationTemplateSeeder.SeedAsync(db, DefaultTenantSeeder.DefaultTenantId);
 }
 
 // Middleware pipeline
@@ -121,5 +179,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapHealthChecks("/health");
+app.MapHub<ChatHub>("/hubs/chat");
+app.MapHub<NotificationHub>("/hubs/notifications");
 
 app.Run();

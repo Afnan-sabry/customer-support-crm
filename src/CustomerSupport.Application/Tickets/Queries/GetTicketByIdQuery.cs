@@ -25,7 +25,7 @@ public class GetTicketByIdQueryHandler : IRequestHandler<GetTicketByIdQuery, Tic
             ticket.CategoryId, ticket.Category?.Name ?? "", ticket.PriorityId, ticket.Priority?.Name ?? "",
             ticket.StatusId, ticket.Status?.Name ?? "", ticket.AssignedToId, ticket.AssignedTo?.FullName,
             ticket.Subject, ticket.Description, ticket.CreatedAt, ticket.UpdatedAt,
-            ticket.Comments.Select(c => new TicketCommentDto(c.Id, c.UserId, c.User?.FullName ?? "", c.Content, c.IsInternal, c.CreatedAt)).ToList(),
+            ticket.Comments.Select(c => new TicketCommentDto(c.Id, c.UserId ?? Guid.Empty, c.User?.FullName ?? "", c.Content, c.IsInternal, c.CreatedAt)).ToList(),
             ticket.Attachments.Select(a => new TicketAttachmentDto(a.Id, a.FileName, a.ContentType, a.FileSize, a.CreatedAt)).ToList(),
             ticket.History.Select(h => new TicketHistoryDto(h.Id, h.User?.FullName, h.Field, h.OldValue, h.NewValue, h.CreatedAt)).ToList());
     }

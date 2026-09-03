@@ -44,13 +44,20 @@ export const routes: Routes = [
         path: 'assignment',
         loadChildren: () => import('./features/assignment/assignment.routes').then(m => m.assignmentRoutes)
       },
+      {
+        path: 'chat',
+        loadChildren: () => import('./features/chat/chat.routes').then(m => m.chatRoutes)
+      },
     ]
   },
   {
     path: 'portal',
     loadComponent: () => import('./layouts/portal-layout/portal-layout').then(m => m.PortalLayoutComponent),
     children: [
-      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      {
+        path: '',
+        loadChildren: () => import('./features/portal/portal.routes').then(m => m.portalRoutes)
+      }
     ]
   },
   {

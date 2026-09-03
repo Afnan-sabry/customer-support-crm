@@ -8,12 +8,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { LanguageService } from '../../core/services/language.service';
 import { AuthService } from '../../core/services/auth.service';
+import { NotificationBellComponent } from '../../features/notifications/notification-bell/notification-bell';
 
 @Component({
   selector: 'app-admin-layout',
   imports: [
     RouterOutlet, RouterLink, RouterLinkActive, TranslateModule,
-    MatSidenavModule, MatToolbarModule, MatListModule, MatIconModule, MatButtonModule
+    MatSidenavModule, MatToolbarModule, MatListModule, MatIconModule, MatButtonModule,
+    NotificationBellComponent
   ],
   template: `
     <mat-sidenav-container class="admin-container">
@@ -37,6 +39,10 @@ import { AuthService } from '../../core/services/auth.service';
           <a mat-list-item routerLink="/admin/knowledge" routerLinkActive="active">
             <mat-icon matListItemIcon>menu_book</mat-icon>
             <span>{{ 'nav.knowledgeBase' | translate }}</span>
+          </a>
+          <a mat-list-item routerLink="/admin/chat" routerLinkActive="active">
+            <mat-icon matListItemIcon>chat</mat-icon>
+            <span>{{ 'nav.chat' | translate }}</span>
           </a>
           <a mat-list-item routerLink="/admin/reports" routerLinkActive="active">
             <mat-icon matListItemIcon>bar_chart</mat-icon>
@@ -72,6 +78,7 @@ import { AuthService } from '../../core/services/auth.service';
       <mat-sidenav-content>
         <mat-toolbar color="primary">
           <span class="spacer"></span>
+          <app-notification-bell />
           <button mat-icon-button (click)="toggleLanguage()">
             <mat-icon>language</mat-icon>
           </button>
