@@ -10,6 +10,7 @@ using CustomerSupport.Infrastructure.Services.Ai;
 using CustomerSupport.Infrastructure.Services.Dispatchers;
 using CustomerSupport.Infrastructure.Services.MockProviders;
 using CustomerSupport.Infrastructure.Services.Reports;
+using CustomerSupport.Infrastructure.Services.Integrations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -104,6 +105,19 @@ public static class DependencyInjection
 
         // Report Services
         services.AddScoped<IReportExportService, ReportExportService>();
+
+        // Integration Services
+        services.AddHttpClient();
+        services.AddSingleton<IWebhookDispatcher, WebhookDispatcher>();
+
+        services.AddScoped<IErpConnector>(sp =>
+        {
+            var config = sp.GetRequiredService<IConfiguration>();
+            var provider = config.GetValue<string>("ErpSettings:Provider") ?? "Mock";
+            if (provider != "Mock")
+                throw new InvalidOperationException($"ERP provider '{provider}' is not supported. Only 'Mock' is available.");
+            return ActivatorUtilities.CreateInstance<MockErpConnector>(sp);
+        });
 
         return services;
     }
