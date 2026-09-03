@@ -58,6 +58,14 @@ public class PortalController : ControllerBase
         return result is null ? NotFound() : Ok(result);
     }
 
+    [HttpPost("tickets/{ticketId:guid}/feedback")]
+    public async Task<ActionResult<Result>> SubmitFeedback(Guid ticketId, [FromBody] PortalFeedbackRequest request)
+    {
+        var result = await _mediator.Send(new SubmitTicketFeedbackCommand(
+            ticketId, GetCustomerId(), GetTenantId(), request.Rating, request.Comment));
+        return result.Succeeded ? StatusCode(201, result) : BadRequest(result);
+    }
+
     [HttpPost("tickets/{ticketId:guid}/comments")]
     public async Task<ActionResult<PortalCommentDto>> AddComment(Guid ticketId, [FromBody] PortalAddCommentRequest request)
     {
@@ -113,3 +121,4 @@ public class PortalController : ControllerBase
 public record PortalAddCommentRequest(string Content);
 public record PortalUpdateProfileRequest(string FullName, string FullNameAr, string? Phone, string? NewPassword);
 public record PortalStartChatRequest(string? Subject);
+public record PortalFeedbackRequest(int Rating, string? Comment);
