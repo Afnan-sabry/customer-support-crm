@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { DatePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
@@ -100,6 +100,7 @@ export class IntegrationsPageComponent {
   private integrationsService = inject(IntegrationsService);
   private dialog = inject(MatDialog);
   private snackBar = inject(MatSnackBar);
+  private translate = inject(TranslateService);
 
   subscriptions: WebhookSubscriptionDto[] = [];
   erpStatus: ErpStatusDto | null = null;
@@ -129,7 +130,7 @@ export class IntegrationsPageComponent {
 
   testWebhook(id: string): void {
     this.integrationsService.testSubscription(id).subscribe(() => {
-      this.snackBar.open('Test webhook sent', '', { duration: 3000 });
+      this.snackBar.open(this.translate.instant('integrations.testSent'), '', { duration: 3000 });
     });
   }
 

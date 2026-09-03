@@ -23,7 +23,8 @@ public class UpdateWebhookSubscriptionCommandHandler : IRequestHandler<UpdateWeb
 
         sub.Name = request.Name;
         sub.Url = request.Url;
-        sub.Secret = request.Secret;
+        if (!string.IsNullOrEmpty(request.Secret))
+            sub.Secret = request.Secret;
         sub.Events = JsonSerializer.Serialize(request.Events);
         sub.IsActive = request.IsActive;
         sub.Headers = request.Headers is not null ? JsonSerializer.Serialize(request.Headers) : null;
