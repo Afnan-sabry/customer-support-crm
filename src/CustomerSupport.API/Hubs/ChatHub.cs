@@ -26,6 +26,16 @@ public class ChatHub : Hub
 
     public async Task JoinChat(Guid conversationId)
     {
+        var conversation = await _context.Conversations.FindAsync(conversationId);
+        if (conversation is null) return;
+
+        var customerIdClaim = Context.User?.FindFirst("CustomerId")?.Value;
+        if (customerIdClaim is not null)
+        {
+            if (!Guid.TryParse(customerIdClaim, out var customerId) || conversation.CustomerId != customerId)
+                return;
+        }
+
         await Groups.AddToGroupAsync(Context.ConnectionId, $"chat-{conversationId}");
     }
 

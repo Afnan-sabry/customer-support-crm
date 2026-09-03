@@ -26,6 +26,9 @@ public class AssignConversationCommandHandler : IRequestHandler<AssignConversati
         var agent = await _context.Users.FindAsync([request.AgentId], cancellationToken);
         if (agent is null) return Result.Failure(["Agent not found"]);
 
+        if (agent.TenantId != conversation.TenantId)
+            return Result.Failure(["Agent not found"]);
+
         conversation.AssignedAgentId = request.AgentId;
         await _context.SaveChangesAsync(cancellationToken);
 
