@@ -13,18 +13,24 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatDialog } from '@angular/material/dialog';
 import { forkJoin } from 'rxjs';
 import {
   TicketsService, TicketDetailDto, TicketStatusDto, TicketPriorityDto
 } from '../tickets.service';
 import { UsersService, UserDetail } from '../../users/users.service';
+import { AiService, AiSuggestionDto } from '../../ai/ai.service';
+import { AiSuggestionPanelComponent } from '../../ai/ai-suggestion-panel/ai-suggestion-panel';
+import { AiSummaryComponent } from '../../ai/ai-summary/ai-summary';
+import { AiSuggestRepliesDialogComponent } from '../../ai/ai-suggest-replies-dialog/ai-suggest-replies-dialog';
 
 @Component({
   selector: 'app-ticket-detail',
   imports: [
     RouterLink, ReactiveFormsModule, TranslateModule, DatePipe,
     MatCardModule, MatTableModule, MatButtonModule, MatIconModule, MatChipsModule,
-    MatFormFieldModule, MatInputModule, MatSelectModule, MatCheckboxModule, MatTabsModule
+    MatFormFieldModule, MatInputModule, MatSelectModule, MatCheckboxModule, MatTabsModule,
+    AiSuggestionPanelComponent, AiSummaryComponent
   ],
   template: `
     @if (ticket) {
@@ -102,6 +108,29 @@ import { UsersService, UserDetail } from '../../users/users.service';
           </div>
         </mat-card-content>
       </mat-card>
+
+      <!-- AI Section -->
+      <div class="ai-actions-bar">
+        <button mat-raised-button (click)="onAiCategorize()" [disabled]="categorizing">
+          <mat-icon>category</mat-icon>
+          {{ 'ai.categorize' | translate }}
+        </button>
+        <button mat-raised-button (click)="onAiSuggestReplies()">
+          <mat-icon>auto_awesome</mat-icon>
+          {{ 'ai.suggestReplies' | translate }}
+        </button>
+      </div>
+
+      <app-ai-summary
+        [ticketId]="ticket.id"
+        [summary]="aiSummary"
+        (summaryGenerated)="aiSummary = $event">
+      </app-ai-summary>
+
+      <app-ai-suggestion-panel
+        [suggestions]="aiSuggestions"
+        (updated)="onAiSuggestionsUpdated()">
+      </app-ai-suggestion-panel>
 
       <mat-tab-group>
         <mat-tab [label]="'tickets.comments' | translate">
@@ -220,6 +249,7 @@ import { UsersService, UserDetail } from '../../users/users.service';
     .info-item .label { font-size: 12px; color: rgba(0,0,0,0.6); }
     .info-item .value { font-size: 14px; }
     .action-bar { display: flex; gap: 16px; flex-wrap: wrap; }
+    .ai-actions-bar { display: flex; gap: 8px; margin-block-end: 16px; }
     .full-width { width: 100%; }
     .tab-content { padding: 16px 0; }
     .comment { border-block-end: 1px solid rgba(0,0,0,0.12); padding-block: 12px; }
@@ -236,11 +266,17 @@ export class TicketDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private fb = inject(FormBuilder);
+  private aiService = inject(AiService);
+  private dialog = inject(MatDialog);
 
   ticket: TicketDetailDto | null = null;
   statuses: TicketStatusDto[] = [];
   priorities: TicketPriorityDto[] = [];
   users: UserDetail[] = [];
+
+  aiSuggestions: AiSuggestionDto[] = [];
+  aiSummary: string | null = null;
+  categorizing = false;
 
   attachmentColumns = ['fileName', 'contentType', 'fileSize', 'createdAt'];
   historyColumns = ['field', 'oldValue', 'newValue', 'userName', 'createdAt'];
@@ -278,7 +314,47 @@ export class TicketDetailComponent implements OnInit {
   loadTicket(id: string): void {
     this.ticketsService.getTicketById(id).subscribe(ticket => {
       this.ticket = ticket;
+      this.loadAiData(ticket.id);
     });
+  }
+
+  loadAiData(ticketId: string): void {
+    this.aiService.getSuggestions(ticketId).subscribe(suggestions => {
+      this.aiSuggestions = suggestions;
+      const latestSummary = suggestions.find(s => s.type === 'Summary');
+      if (latestSummary) this.aiSummary = latestSummary.output;
+    });
+  }
+
+  onAiCategorize(): void {
+    if (!this.ticket) return;
+    this.categorizing = true;
+    this.aiService.categorize(this.ticket.id).subscribe({
+      next: () => {
+        this.categorizing = false;
+        this.loadTicket(this.ticket!.id);
+      },
+      error: () => { this.categorizing = false; }
+    });
+  }
+
+  onAiSuggestReplies(): void {
+    if (!this.ticket) return;
+    const dialogRef = this.dialog.open(AiSuggestRepliesDialogComponent, {
+      width: '600px',
+      data: { ticketId: this.ticket.id }
+    });
+    dialogRef.afterClosed().subscribe(reply => {
+      if (reply) {
+        this.commentForm.patchValue({ content: reply });
+      }
+    });
+  }
+
+  onAiSuggestionsUpdated(): void {
+    if (this.ticket) {
+      this.loadTicket(this.ticket.id);
+    }
   }
 
   onStatusChange(statusId: string): void {
