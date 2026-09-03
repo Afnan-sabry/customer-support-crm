@@ -98,6 +98,8 @@ public static class DependencyInjection
             return ActivatorUtilities.CreateInstance<AzureOpenAiClient>(sp);
         });
 
+        services.AddScoped<IAiTicketService, AiTicketService>();
+
         return services;
     }
 }
