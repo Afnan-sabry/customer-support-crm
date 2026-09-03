@@ -40,13 +40,12 @@ public class AiRateLimiter
         }
     }
 
-    public void Release(int actualTokens)
+    public void Release(int estimatedTokens, int actualTokens)
     {
         lock (_tokenLock)
         {
-            var diff = actualTokens - 0;
-            if (diff > 0)
-                _tokensUsedThisWindow = Math.Max(0, _tokensUsedThisWindow + diff);
+            var diff = actualTokens - estimatedTokens;
+            _tokensUsedThisWindow = Math.Max(0, _tokensUsedThisWindow + diff);
         }
         _concurrencySemaphore.Release();
     }

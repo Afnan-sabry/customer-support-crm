@@ -73,6 +73,6 @@ public class AzureOpenAiClient : IAiClient
 
         return new AiEmbeddingResponse(
             Embedding: embedding.ToFloats().ToArray(),
-            TokensUsed: response.Value.ToString().Length / 4);
+            TokensUsed: text.Length / 4);
     }
 }
