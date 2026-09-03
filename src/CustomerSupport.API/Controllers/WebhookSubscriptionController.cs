@@ -32,7 +32,10 @@ public class WebhookSubscriptionController : ControllerBase
     [HttpPost]
     [Authorize(Policy = "Permission:integrations.manage")]
     public async Task<ActionResult<WebhookSubscriptionDto>> Create(CreateWebhookSubscriptionCommand command)
-        => CreatedAtAction(nameof(GetById), new { id = (await _mediator.Send(command)).Id }, await _mediator.Send(command));
+    {
+        var result = await _mediator.Send(command);
+        return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
+    }
 
     [HttpPut("{id:guid}")]
     [Authorize(Policy = "Permission:integrations.manage")]
