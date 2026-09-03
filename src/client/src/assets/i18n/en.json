@@ -151,7 +151,15 @@
     "overdue": "Overdue",
     "refresh": "Refresh",
     "noTickets": "No tickets assigned",
-    "compliance": "Compliance"
+    "compliance": "Compliance",
+    "ticketTrends": "Ticket Trends (30 Days)",
+    "categoryDistribution": "Open Tickets by Category",
+    "priorityBreakdown": "Open Tickets by Priority",
+    "channelVolume": "Conversations by Channel",
+    "recentSlaBreaches": "Recent SLA Breaches",
+    "breachType": "Breach Type",
+    "policy": "Policy",
+    "minutesLate": "Minutes Late"
   },
   "knowledge": {
     "title": "Knowledge Base",

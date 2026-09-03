@@ -30,6 +30,43 @@ export interface AgentWorkloadDto {
   overdueTickets: number;
 }
 
+export interface TicketTrendDto {
+  date: string;
+  createdCount: number;
+  resolvedCount: number;
+}
+
+export interface CategoryDistributionDto {
+  categoryId: string;
+  categoryName: string;
+  categoryNameAr: string;
+  ticketCount: number;
+}
+
+export interface PriorityBreakdownDto {
+  priorityId: string;
+  priorityName: string;
+  priorityNameAr: string;
+  level: number;
+  ticketCount: number;
+}
+
+export interface ChannelVolumeDto {
+  channel: string;
+  conversationCount: number;
+  date: string;
+}
+
+export interface SlaBreachDto {
+  ticketId: string;
+  ticketNumber: string;
+  breachType: string;
+  policyName: string;
+  dueAt: string;
+  breachedAt: string;
+  minutesLate: number;
+}
+
 @Injectable({ providedIn: 'root' })
 export class DashboardService extends ApiService {
   getStats(): Observable<DashboardStatsDto> {
@@ -46,5 +83,25 @@ export class DashboardService extends ApiService {
 
   getTeamWorkload(): Observable<AgentWorkloadDto[]> {
     return this.get<AgentWorkloadDto[]>('/v1/Dashboard/team-workload');
+  }
+
+  getTicketTrends(days = 30): Observable<TicketTrendDto[]> {
+    return this.get<TicketTrendDto[]>('/v1/Dashboard/ticket-trends', { days });
+  }
+
+  getCategoryDistribution(): Observable<CategoryDistributionDto[]> {
+    return this.get<CategoryDistributionDto[]>('/v1/Dashboard/category-distribution');
+  }
+
+  getPriorityBreakdown(): Observable<PriorityBreakdownDto[]> {
+    return this.get<PriorityBreakdownDto[]>('/v1/Dashboard/priority-breakdown');
+  }
+
+  getChannelVolume(days = 30): Observable<ChannelVolumeDto[]> {
+    return this.get<ChannelVolumeDto[]>('/v1/Dashboard/channel-volume', { days });
+  }
+
+  getRecentSlaBreaches(count = 10): Observable<SlaBreachDto[]> {
+    return this.get<SlaBreachDto[]>('/v1/Dashboard/recent-sla-breaches', { count });
   }
 }

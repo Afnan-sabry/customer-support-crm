@@ -36,4 +36,29 @@ public class DashboardController : ControllerBase
     [Authorize(Policy = "Permission:dashboard.view")]
     public async Task<ActionResult<List<AgentWorkloadDto>>> GetTeamWorkload()
         => Ok(await _mediator.Send(new GetTeamWorkloadQuery()));
+
+    [HttpGet("ticket-trends")]
+    [Authorize(Policy = "Permission:dashboard.view")]
+    public async Task<ActionResult<List<TicketTrendDto>>> GetTicketTrends([FromQuery] int days = 30)
+        => Ok(await _mediator.Send(new GetTicketTrendsQuery(days)));
+
+    [HttpGet("category-distribution")]
+    [Authorize(Policy = "Permission:dashboard.view")]
+    public async Task<ActionResult<List<CategoryDistributionDto>>> GetCategoryDistribution()
+        => Ok(await _mediator.Send(new GetCategoryDistributionQuery()));
+
+    [HttpGet("priority-breakdown")]
+    [Authorize(Policy = "Permission:dashboard.view")]
+    public async Task<ActionResult<List<PriorityBreakdownDto>>> GetPriorityBreakdown()
+        => Ok(await _mediator.Send(new GetPriorityBreakdownQuery()));
+
+    [HttpGet("channel-volume")]
+    [Authorize(Policy = "Permission:dashboard.view")]
+    public async Task<ActionResult<List<ChannelVolumeDto>>> GetChannelVolume([FromQuery] int days = 30)
+        => Ok(await _mediator.Send(new GetChannelVolumeQuery(days)));
+
+    [HttpGet("recent-sla-breaches")]
+    [Authorize(Policy = "Permission:dashboard.view")]
+    public async Task<ActionResult<List<SlaBreachDto>>> GetRecentSlaBreaches([FromQuery] int count = 10)
+        => Ok(await _mediator.Send(new GetRecentSlaBreachesQuery(count)));
 }

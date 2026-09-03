@@ -151,7 +151,15 @@
     "overdue": "متأخرة",
     "refresh": "تحديث",
     "noTickets": "لا توجد تذاكر معينة",
-    "compliance": "الالتزام"
+    "compliance": "الالتزام",
+    "ticketTrends": "اتجاهات التذاكر (30 يوم)",
+    "categoryDistribution": "التذاكر المفتوحة حسب الفئة",
+    "priorityBreakdown": "التذاكر المفتوحة حسب الأولوية",
+    "channelVolume": "المحادثات حسب القناة",
+    "recentSlaBreaches": "خروقات اتفاقية مستوى الخدمة الأخيرة",
+    "breachType": "نوع الخرق",
+    "policy": "السياسة",
+    "minutesLate": "الدقائق المتأخرة"
   },
   "knowledge": {
     "title": "قاعدة المعرفة",
