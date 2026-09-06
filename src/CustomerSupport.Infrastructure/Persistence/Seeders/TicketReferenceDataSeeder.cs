@@ -7,7 +7,7 @@ public static class TicketReferenceDataSeeder
 {
     public static async Task SeedAsync(AppDbContext context, Guid tenantId)
     {
-        if (!await context.Set<TicketCategory>().AnyAsync())
+        if (!await context.Set<TicketCategory>().IgnoreQueryFilters().AnyAsync())
         {
             context.Set<TicketCategory>().AddRange(
                 new TicketCategory { Id = Guid.NewGuid(), TenantId = tenantId, Name = "General Inquiry", NameAr = "استفسار عام", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow },
@@ -16,7 +16,7 @@ public static class TicketReferenceDataSeeder
                 new TicketCategory { Id = Guid.NewGuid(), TenantId = tenantId, Name = "Complaint", NameAr = "شكوى", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow });
         }
 
-        if (!await context.Set<TicketPriority>().AnyAsync())
+        if (!await context.Set<TicketPriority>().IgnoreQueryFilters().AnyAsync())
         {
             context.Set<TicketPriority>().AddRange(
                 new TicketPriority { Id = Guid.NewGuid(), TenantId = tenantId, Name = "Low", NameAr = "منخفض", Level = 1, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow },
@@ -25,7 +25,7 @@ public static class TicketReferenceDataSeeder
                 new TicketPriority { Id = Guid.NewGuid(), TenantId = tenantId, Name = "Critical", NameAr = "حرج", Level = 4, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow });
         }
 
-        if (!await context.Set<TicketStatus>().AnyAsync())
+        if (!await context.Set<TicketStatus>().IgnoreQueryFilters().AnyAsync())
         {
             context.Set<TicketStatus>().AddRange(
                 new TicketStatus { Id = Guid.NewGuid(), TenantId = tenantId, Name = "New", NameAr = "جديد", Order = 1, IsFinal = false, CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow },

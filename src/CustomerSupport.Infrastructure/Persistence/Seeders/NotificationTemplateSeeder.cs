@@ -45,7 +45,7 @@ public static class NotificationTemplateSeeder
 
         foreach (var (key, subject, subjectAr, body, bodyAr) in Templates)
         {
-            if (!await context.NotificationTemplates.AnyAsync(t => t.TenantId == tenantId && t.Key == key))
+            if (!await context.NotificationTemplates.IgnoreQueryFilters().AnyAsync(t => t.TenantId == tenantId && t.Key == key))
             {
                 context.NotificationTemplates.Add(new NotificationTemplate
                 {
