@@ -22,7 +22,7 @@ export interface CreateUserRequest {
   fullNameAr: string;
   phone?: string;
   preferredLanguage: string;
-  roleNames: string[];
+  roles: string[];
 }
 
 export interface UpdateUserRequest {
@@ -31,12 +31,16 @@ export interface UpdateUserRequest {
   phone?: string;
   preferredLanguage: string;
   isActive: boolean;
-  roleNames: string[];
+  roles: string[];
 }
 
 @Injectable({ providedIn: 'root' })
 export class UsersService extends ApiService {
-  getUsers(params?: { search?: string; page?: number; pageSize?: number }): Observable<PaginatedList<UserDetail>> {
+  getUsers(params?: {
+    search?: string;
+    page?: number;
+    pageSize?: number;
+  }): Observable<PaginatedList<UserDetail>> {
     return this.get<PaginatedList<UserDetail>>('/v1/users', params);
   }
 

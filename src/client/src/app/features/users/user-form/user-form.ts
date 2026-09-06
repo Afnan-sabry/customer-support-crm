@@ -16,14 +16,23 @@ import { RolesService, RoleDto } from '../../roles/roles.service';
 @Component({
   selector: 'app-user-form',
   imports: [
-    ReactiveFormsModule, TranslateModule,
-    MatCardModule, MatFormFieldModule, MatInputModule, MatSelectModule,
-    MatButtonModule, MatChipsModule, MatIconModule, MatSlideToggleModule
+    ReactiveFormsModule,
+    TranslateModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatChipsModule,
+    MatIconModule,
+    MatSlideToggleModule,
   ],
   template: `
     <mat-card class="form-card">
       <mat-card-header>
-        <mat-card-title>{{ (isEditMode ? 'users.editUser' : 'users.createUser') | translate }}</mat-card-title>
+        <mat-card-title>{{
+          (isEditMode ? 'users.editUser' : 'users.createUser') | translate
+        }}</mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -64,7 +73,7 @@ import { RolesService, RoleDto } from '../../roles/roles.service';
 
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>{{ 'users.roles' | translate }}</mat-label>
-            <mat-select formControlName="roleNames" multiple>
+            <mat-select formControlName="roles" multiple>
               @for (role of availableRoles; track role.id) {
                 <mat-option [value]="role.name">{{ role.name }}</mat-option>
               }
@@ -73,7 +82,9 @@ import { RolesService, RoleDto } from '../../roles/roles.service';
 
           @if (isEditMode) {
             <div class="active-toggle">
-              <mat-slide-toggle formControlName="isActive">{{ 'users.active' | translate }}</mat-slide-toggle>
+              <mat-slide-toggle formControlName="isActive">{{
+                'users.active' | translate
+              }}</mat-slide-toggle>
             </div>
           }
 
@@ -82,8 +93,15 @@ import { RolesService, RoleDto } from '../../roles/roles.service';
           }
 
           <div class="form-actions">
-            <button mat-button type="button" (click)="onCancel()">{{ 'common.cancel' | translate }}</button>
-            <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || saving">
+            <button mat-button type="button" (click)="onCancel()">
+              {{ 'common.cancel' | translate }}
+            </button>
+            <button
+              mat-raised-button
+              color="primary"
+              type="submit"
+              [disabled]="form.invalid || saving"
+            >
               {{ 'common.save' | translate }}
             </button>
           </div>
@@ -91,13 +109,31 @@ import { RolesService, RoleDto } from '../../roles/roles.service';
       </mat-card-content>
     </mat-card>
   `,
-  styles: [`
-    .form-card { max-width: 600px; margin: 0 auto; }
-    .full-width { width: 100%; }
-    .active-toggle { margin-block-end: 16px; }
-    .form-actions { display: flex; justify-content: flex-end; gap: 8px; margin-block-start: 16px; }
-    .error-message { color: #f44336; margin-block-end: 16px; font-size: 14px; }
-  `]
+  styles: [
+    `
+      .form-card {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      .full-width {
+        width: 100%;
+      }
+      .active-toggle {
+        margin-block-end: 16px;
+      }
+      .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+        margin-block-start: 16px;
+      }
+      .error-message {
+        color: #f44336;
+        margin-block-end: 16px;
+        font-size: 14px;
+      }
+    `,
+  ],
 })
 export class UserFormComponent implements OnInit {
   private fb = inject(FormBuilder);
@@ -120,12 +156,12 @@ export class UserFormComponent implements OnInit {
     fullNameAr: ['', [Validators.required]],
     phone: [''],
     preferredLanguage: ['en', [Validators.required]],
-    roleNames: [[] as string[]],
-    isActive: [true]
+    roles: [[] as string[]],
+    isActive: [true],
   });
 
   ngOnInit(): void {
-    this.rolesService.getRoles().subscribe(roles => this.availableRoles = roles);
+    this.rolesService.getRoles().subscribe((roles) => (this.availableRoles = roles));
 
     this.userId = this.route.snapshot.paramMap.get('id');
     this.isEditMode = !!this.userId;
@@ -133,15 +169,15 @@ export class UserFormComponent implements OnInit {
     if (this.isEditMode) {
       this.form.get('password')?.clearValidators();
       this.form.get('password')?.updateValueAndValidity();
-      this.usersService.getUserById(this.userId!).subscribe(user => {
+      this.usersService.getUserById(this.userId!).subscribe((user) => {
         this.form.patchValue({
           email: user.email,
           fullName: user.fullName,
           fullNameAr: user.fullNameAr,
           phone: user.phone ?? '',
           preferredLanguage: user.preferredLanguage,
-          roleNames: user.roles,
-          isActive: user.isActive
+          roles: user.roles,
+          isActive: user.isActive,
         });
         this.form.get('email')?.disable();
       });
@@ -156,30 +192,34 @@ export class UserFormComponent implements OnInit {
     const value = this.form.getRawValue();
 
     if (this.isEditMode) {
-      this.usersService.updateUser(this.userId!, {
-        fullName: value.fullName!,
-        fullNameAr: value.fullNameAr!,
-        phone: value.phone || undefined,
-        preferredLanguage: value.preferredLanguage!,
-        isActive: value.isActive!,
-        roleNames: value.roleNames!
-      }).subscribe({
-        next: () => this.router.navigate(['/admin/users']),
-        error: (err) => this.handleError(err)
-      });
+      this.usersService
+        .updateUser(this.userId!, {
+          fullName: value.fullName!,
+          fullNameAr: value.fullNameAr!,
+          phone: value.phone || undefined,
+          preferredLanguage: value.preferredLanguage!,
+          isActive: value.isActive!,
+          roles: value.roles!,
+        })
+        .subscribe({
+          next: () => this.router.navigate(['/admin/users']),
+          error: (err) => this.handleError(err),
+        });
     } else {
-      this.usersService.createUser({
-        email: value.email!,
-        password: value.password!,
-        fullName: value.fullName!,
-        fullNameAr: value.fullNameAr!,
-        phone: value.phone || undefined,
-        preferredLanguage: value.preferredLanguage!,
-        roleNames: value.roleNames!
-      }).subscribe({
-        next: () => this.router.navigate(['/admin/users']),
-        error: (err) => this.handleError(err)
-      });
+      this.usersService
+        .createUser({
+          email: value.email!,
+          password: value.password!,
+          fullName: value.fullName!,
+          fullNameAr: value.fullNameAr!,
+          phone: value.phone || undefined,
+          preferredLanguage: value.preferredLanguage!,
+          roles: value.roles!,
+        })
+        .subscribe({
+          next: () => this.router.navigate(['/admin/users']),
+          error: (err) => this.handleError(err),
+        });
     }
   }
 
