@@ -213,6 +213,6 @@ export class KnowledgeCategoriesComponent implements OnInit {
 
   private handleError(err: any): void {
     this.saving = false;
-    this.error = err.error?.detail || err.error?.title || 'An error occurred';
+    this.error = err.error?.detail || err.error?.title || this.translate.instant('app.error');
   }
 }

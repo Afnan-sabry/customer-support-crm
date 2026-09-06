@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -9,11 +9,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { forkJoin } from 'rxjs';
 import { PortalTicketService, TicketCategoryDto, TicketPriorityDto } from '../portal-ticket.service';
+import { LocalizedNamePipe } from '../../../shared/pipes/localized-name.pipe';
 
 @Component({
   selector: 'app-portal-ticket-form',
   imports: [
-    ReactiveFormsModule, TranslateModule,
+    ReactiveFormsModule, TranslateModule, LocalizedNamePipe,
     MatCardModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule
   ],
   template: `
@@ -27,7 +28,7 @@ import { PortalTicketService, TicketCategoryDto, TicketPriorityDto } from '../po
             <mat-label>{{ 'tickets.category' | translate }}</mat-label>
             <mat-select formControlName="categoryId">
               @for (category of categories; track category.id) {
-                <mat-option [value]="category.id">{{ category.name }}</mat-option>
+                <mat-option [value]="category.id">{{ category | localizedName }}</mat-option>
               }
             </mat-select>
           </mat-form-field>
@@ -36,7 +37,7 @@ import { PortalTicketService, TicketCategoryDto, TicketPriorityDto } from '../po
             <mat-label>{{ 'tickets.priority' | translate }}</mat-label>
             <mat-select formControlName="priorityId">
               @for (priority of priorities; track priority.id) {
-                <mat-option [value]="priority.id">{{ priority.name }}</mat-option>
+                <mat-option [value]="priority.id">{{ priority | localizedName }}</mat-option>
               }
             </mat-select>
           </mat-form-field>
@@ -76,6 +77,7 @@ export class PortalTicketFormComponent implements OnInit {
   private fb = inject(FormBuilder);
   private ticketService = inject(PortalTicketService);
   private router = inject(Router);
+  private translate = inject(TranslateService);
 
   saving = false;
   error: string | null = null;
@@ -124,6 +126,6 @@ export class PortalTicketFormComponent implements OnInit {
 
   private handleError(err: any): void {
     this.saving = false;
-    this.error = err.error?.detail || err.error?.title || 'An error occurred';
+    this.error = err.error?.detail || err.error?.title || this.translate.instant('app.error');
   }
 }

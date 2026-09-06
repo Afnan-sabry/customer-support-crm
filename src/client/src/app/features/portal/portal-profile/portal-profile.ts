@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -69,6 +69,7 @@ interface PortalProfileDto {
 export class PortalProfileComponent extends PortalApiService implements OnInit {
   private fb = inject(FormBuilder);
   private portalAuthService = inject(PortalAuthService);
+  private translate = inject(TranslateService);
 
   saving = false;
   success = false;
@@ -122,7 +123,7 @@ export class PortalProfileComponent extends PortalApiService implements OnInit {
       },
       error: (err) => {
         this.saving = false;
-        this.error = err.error?.detail || err.error?.title || 'Failed to update profile';
+        this.error = err.error?.detail || err.error?.title || this.translate.instant('portal.profileUpdateFailed');
       }
     });
   }

@@ -37,7 +37,8 @@
     "logout": "Logout",
     "email": "Email",
     "password": "Password",
-    "loginSubtitle": "Sign in to your account"
+    "loginSubtitle": "Sign in to your account",
+    "loginFailed": "Login failed"
   },
   "users": {
     "title": "Users",
@@ -280,7 +281,10 @@
     "chatTitle": "Chat with Support",
     "chatIntro": "Start a live chat with our support team.",
     "chatStart": "Start Chat",
-    "chatWaiting": "Waiting for an agent to join..."
+    "chatWaiting": "Waiting for an agent to join...",
+    "loginFailed": "Login failed",
+    "registrationFailed": "Registration failed",
+    "profileUpdateFailed": "Failed to update profile"
   },
   "ai": {
     "suggestions": "AI Suggestions",

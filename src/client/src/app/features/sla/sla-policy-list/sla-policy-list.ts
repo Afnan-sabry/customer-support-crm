@@ -12,11 +12,12 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { SlaService, SlaPolicyDto } from '../sla.service';
 import { TicketsService, TicketPriorityDto, TicketCategoryDto } from '../../tickets/tickets.service';
 import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog';
+import { LocalizedNamePipe } from '../../../shared/pipes/localized-name.pipe';
 
 @Component({
   selector: 'app-sla-policy-list',
   imports: [
-    RouterLink, TranslateModule,
+    RouterLink, TranslateModule, LocalizedNamePipe,
     MatTableModule, MatPaginatorModule, MatFormFieldModule,
     MatSelectModule, MatButtonModule, MatIconModule, MatChipsModule, MatDialogModule
   ],
@@ -35,7 +36,7 @@ import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialo
         <mat-select [value]="priorityId" (selectionChange)="onPriorityChange($event.value)">
           <mat-option [value]="null">{{ 'sla.allPriorities' | translate }}</mat-option>
           @for (priority of priorities; track priority.id) {
-            <mat-option [value]="priority.id">{{ priority.name }}</mat-option>
+            <mat-option [value]="priority.id">{{ priority | localizedName }}</mat-option>
           }
         </mat-select>
       </mat-form-field>
@@ -45,7 +46,7 @@ import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialo
         <mat-select [value]="categoryId" (selectionChange)="onCategoryChange($event.value)">
           <mat-option [value]="null">{{ 'sla.allCategories' | translate }}</mat-option>
           @for (category of categories; track category.id) {
-            <mat-option [value]="category.id">{{ category.name }}</mat-option>
+            <mat-option [value]="category.id">{{ category | localizedName }}</mat-option>
           }
         </mat-select>
       </mat-form-field>

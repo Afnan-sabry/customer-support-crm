@@ -25,6 +25,7 @@ import { AiService, AiSuggestionDto } from '../../ai/ai.service';
 import { AiSuggestionPanelComponent } from '../../ai/ai-suggestion-panel/ai-suggestion-panel';
 import { AiSummaryComponent } from '../../ai/ai-summary/ai-summary';
 import { AiSuggestRepliesDialogComponent } from '../../ai/ai-suggest-replies-dialog/ai-suggest-replies-dialog';
+import { LocalizedNamePipe } from '../../../shared/pipes/localized-name.pipe';
 
 @Component({
   selector: 'app-ticket-detail',
@@ -32,7 +33,7 @@ import { AiSuggestRepliesDialogComponent } from '../../ai/ai-suggest-replies-dia
     RouterLink, ReactiveFormsModule, TranslateModule, DatePipe,
     MatCardModule, MatTableModule, MatButtonModule, MatIconModule, MatChipsModule,
     MatFormFieldModule, MatInputModule, MatSelectModule, MatCheckboxModule, MatTabsModule,
-    MatSnackBarModule, AiSuggestionPanelComponent, AiSummaryComponent
+    MatSnackBarModule, AiSuggestionPanelComponent, AiSummaryComponent, LocalizedNamePipe
   ],
   template: `
     @if (ticket) {
@@ -40,8 +41,8 @@ import { AiSuggestRepliesDialogComponent } from '../../ai/ai-suggest-replies-dia
         <div>
           <h1>{{ ticket.ticketNumber }} &mdash; {{ ticket.subject }}</h1>
           <div class="header-chips">
-            <mat-chip color="primary" selected>{{ ticket.statusName }}</mat-chip>
-            <mat-chip color="accent" selected>{{ ticket.priorityName }}</mat-chip>
+            <mat-chip color="primary" selected>{{ statusItem | localizedName }}</mat-chip>
+            <mat-chip color="accent" selected>{{ priorityItem | localizedName }}</mat-chip>
           </div>
         </div>
         <button mat-button routerLink="/admin/tickets">
@@ -84,7 +85,7 @@ import { AiSuggestRepliesDialogComponent } from '../../ai/ai-suggest-replies-dia
               <mat-label>{{ 'tickets.changeStatus' | translate }}</mat-label>
               <mat-select [value]="ticket.statusId" (selectionChange)="onStatusChange($event.value)">
                 @for (status of statuses; track status.id) {
-                  <mat-option [value]="status.id">{{ status.name }}</mat-option>
+                  <mat-option [value]="status.id">{{ status | localizedName }}</mat-option>
                 }
               </mat-select>
             </mat-form-field>
@@ -93,7 +94,7 @@ import { AiSuggestRepliesDialogComponent } from '../../ai/ai-suggest-replies-dia
               <mat-label>{{ 'tickets.changePriority' | translate }}</mat-label>
               <mat-select [value]="ticket.priorityId" (selectionChange)="onPriorityChange($event.value)">
                 @for (priority of priorities; track priority.id) {
-                  <mat-option [value]="priority.id">{{ priority.name }}</mat-option>
+                  <mat-option [value]="priority.id">{{ priority | localizedName }}</mat-option>
                 }
               </mat-select>
             </mat-form-field>
@@ -291,6 +292,14 @@ export class TicketDetailComponent implements OnInit {
     content: ['', [Validators.required]],
     isInternal: [false]
   });
+
+  get statusItem() {
+    return this.ticket ? this.statuses.find(s => s.id === this.ticket!.statusId) ?? null : null;
+  }
+
+  get priorityItem() {
+    return this.ticket ? this.priorities.find(p => p.id === this.ticket!.priorityId) ?? null : null;
+  }
 
   get sortedHistory() {
     if (!this.ticket) return [];

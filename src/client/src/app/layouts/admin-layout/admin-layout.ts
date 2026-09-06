@@ -79,8 +79,9 @@ import { NotificationBellComponent } from '../../features/notifications/notifica
         <mat-toolbar color="primary">
           <span class="spacer"></span>
           <app-notification-bell />
-          <button mat-icon-button (click)="toggleLanguage()">
+          <button mat-button (click)="toggleLanguage()">
             <mat-icon>language</mat-icon>
+            {{ languageLabel }}
           </button>
           <button mat-icon-button (click)="logout()">
             <mat-icon>logout</mat-icon>
@@ -104,6 +105,10 @@ import { NotificationBellComponent } from '../../features/notifications/notifica
 export class AdminLayoutComponent {
   private languageService = inject(LanguageService);
   private authService = inject(AuthService);
+
+  get languageLabel(): string {
+    return this.languageService.getCurrentLanguage() === 'en' ? 'العربية' : 'English';
+  }
 
   toggleLanguage(): void {
     const current = this.languageService.getCurrentLanguage();

@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -82,6 +82,7 @@ export class CustomerFormComponent implements OnInit {
   private customersService = inject(CustomersService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private translate = inject(TranslateService);
 
   isEditMode = false;
   customerId: string | null = null;
@@ -160,6 +161,6 @@ export class CustomerFormComponent implements OnInit {
 
   private handleError(err: any): void {
     this.saving = false;
-    this.error = err.error?.detail || err.error?.title || 'An error occurred';
+    this.error = err.error?.detail || err.error?.title || this.translate.instant('app.error');
   }
 }

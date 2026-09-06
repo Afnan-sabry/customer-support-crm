@@ -13,11 +13,12 @@ import { MatChipsModule } from '@angular/material/chips';
 import { Subject, debounceTime, distinctUntilChanged, forkJoin } from 'rxjs';
 import { TicketsService, TicketDto, TicketStatusDto, TicketPriorityDto, TicketCategoryDto } from '../tickets.service';
 import { UsersService, UserDetail } from '../../users/users.service';
+import { LocalizedNamePipe } from '../../../shared/pipes/localized-name.pipe';
 
 @Component({
   selector: 'app-ticket-list',
   imports: [
-    RouterLink, TranslateModule, DatePipe,
+    RouterLink, TranslateModule, DatePipe, LocalizedNamePipe,
     MatTableModule, MatPaginatorModule, MatFormFieldModule, MatInputModule,
     MatSelectModule, MatButtonModule, MatIconModule, MatChipsModule
   ],
@@ -42,7 +43,7 @@ import { UsersService, UserDetail } from '../../users/users.service';
         <mat-select [value]="statusId" (selectionChange)="onFilterChange('statusId', $event.value)">
           <mat-option [value]="null">{{ 'tickets.allStatuses' | translate }}</mat-option>
           @for (status of statuses; track status.id) {
-            <mat-option [value]="status.id">{{ status.name }}</mat-option>
+            <mat-option [value]="status.id">{{ status | localizedName }}</mat-option>
           }
         </mat-select>
       </mat-form-field>
@@ -52,7 +53,7 @@ import { UsersService, UserDetail } from '../../users/users.service';
         <mat-select [value]="priorityId" (selectionChange)="onFilterChange('priorityId', $event.value)">
           <mat-option [value]="null">{{ 'tickets.allPriorities' | translate }}</mat-option>
           @for (priority of priorities; track priority.id) {
-            <mat-option [value]="priority.id">{{ priority.name }}</mat-option>
+            <mat-option [value]="priority.id">{{ priority | localizedName }}</mat-option>
           }
         </mat-select>
       </mat-form-field>
@@ -62,7 +63,7 @@ import { UsersService, UserDetail } from '../../users/users.service';
         <mat-select [value]="categoryId" (selectionChange)="onFilterChange('categoryId', $event.value)">
           <mat-option [value]="null">{{ 'tickets.allCategories' | translate }}</mat-option>
           @for (category of categories; track category.id) {
-            <mat-option [value]="category.id">{{ category.name }}</mat-option>
+            <mat-option [value]="category.id">{{ category | localizedName }}</mat-option>
           }
         </mat-select>
       </mat-form-field>

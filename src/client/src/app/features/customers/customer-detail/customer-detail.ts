@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
@@ -189,6 +189,7 @@ export class CustomerDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private fb = inject(FormBuilder);
+  private translate = inject(TranslateService);
 
   customer: CustomerDetailDto | null = null;
   contactColumns = ['name', 'email', 'phone', 'title', 'isPrimary'];
@@ -242,7 +243,7 @@ export class CustomerDetailComponent implements OnInit {
       },
       error: (err) => {
         this.savingContact = false;
-        this.contactError = err.error?.detail || err.error?.title || 'An error occurred';
+        this.contactError = err.error?.detail || err.error?.title || this.translate.instant('app.error');
       }
     });
   }

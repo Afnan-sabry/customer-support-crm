@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -10,11 +10,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { EscalationService, EscalationActionType, EscalationTriggerType } from '../escalation.service';
 import { TicketsService, TicketPriorityDto, TicketCategoryDto } from '../../tickets/tickets.service';
 import { UsersService, UserDetail } from '../../users/users.service';
+import { LocalizedNamePipe } from '../../../shared/pipes/localized-name.pipe';
 
 @Component({
   selector: 'app-escalation-rule-form',
   imports: [
-    ReactiveFormsModule, TranslateModule,
+    ReactiveFormsModule, TranslateModule, LocalizedNamePipe,
     MatCardModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule
   ],
   template: `
@@ -39,7 +40,7 @@ import { UsersService, UserDetail } from '../../users/users.service';
             <mat-select formControlName="priorityId">
               <mat-option [value]="null">{{ 'sla.allPriorities' | translate }}</mat-option>
               @for (priority of priorities; track priority.id) {
-                <mat-option [value]="priority.id">{{ priority.name }}</mat-option>
+                <mat-option [value]="priority.id">{{ priority | localizedName }}</mat-option>
               }
             </mat-select>
           </mat-form-field>
@@ -49,7 +50,7 @@ import { UsersService, UserDetail } from '../../users/users.service';
             <mat-select formControlName="categoryId">
               <mat-option [value]="null">{{ 'sla.allCategories' | translate }}</mat-option>
               @for (category of categories; track category.id) {
-                <mat-option [value]="category.id">{{ category.name }}</mat-option>
+                <mat-option [value]="category.id">{{ category | localizedName }}</mat-option>
               }
             </mat-select>
           </mat-form-field>
@@ -80,7 +81,7 @@ import { UsersService, UserDetail } from '../../users/users.service';
             @if (form.value.actionType === 'ChangePriority') {
               <mat-select formControlName="actionTarget">
                 @for (priority of priorities; track priority.id) {
-                  <mat-option [value]="priority.id">{{ priority.name }}</mat-option>
+                  <mat-option [value]="priority.id">{{ priority | localizedName }}</mat-option>
                 }
               </mat-select>
             } @else {
@@ -125,6 +126,7 @@ export class EscalationRuleFormComponent implements OnInit {
   private usersService = inject(UsersService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private translate = inject(TranslateService);
 
   saving = false;
   error: string | null = null;
@@ -215,7 +217,7 @@ export class EscalationRuleFormComponent implements OnInit {
 
   private handleError(err: any): void {
     this.saving = false;
-    this.error = err.error?.detail || err.error?.title || 'An error occurred';
+    this.error = err.error?.detail || err.error?.title || this.translate.instant('app.error');
   }
 
   private updateActionTargetValidators(actionType: EscalationActionType | null): void {

@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -80,6 +80,7 @@ export class PortalRegisterComponent {
   private fb = inject(FormBuilder);
   private portalAuthService = inject(PortalAuthService);
   private router = inject(Router);
+  private translate = inject(TranslateService);
 
   form = this.fb.group({
     fullName: ['', [Validators.required]],
@@ -113,7 +114,7 @@ export class PortalRegisterComponent {
       },
       error: (err) => {
         this.loading = false;
-        this.error = err.error?.detail || err.error?.title || 'Registration failed';
+        this.error = err.error?.detail || err.error?.title || this.translate.instant('portal.registrationFailed');
       }
     });
   }

@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DOCUMENT } from '@angular/common';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class LanguageService {
@@ -10,22 +11,26 @@ export class LanguageService {
   private readonly STORAGE_KEY = 'crm-language';
   private readonly RTL_LANGUAGES = ['ar'];
 
-  init(): void {
+  init(): Observable<unknown> {
     this.translate.addLangs(['en', 'ar']);
     this.translate.setDefaultLang('en');
 
     const saved = localStorage.getItem(this.STORAGE_KEY);
     const lang = saved && ['en', 'ar'].includes(saved) ? saved : 'en';
-    this.switchLanguage(lang as 'en' | 'ar');
+    return this.applyLanguage(lang as 'en' | 'ar');
   }
 
   switchLanguage(lang: 'en' | 'ar'): void {
-    this.translate.use(lang);
+    this.applyLanguage(lang).subscribe();
+  }
+
+  private applyLanguage(lang: 'en' | 'ar'): Observable<unknown> {
     localStorage.setItem(this.STORAGE_KEY, lang);
 
     const dir = this.RTL_LANGUAGES.includes(lang) ? 'rtl' : 'ltr';
     this.document.documentElement.setAttribute('dir', dir);
     this.document.documentElement.setAttribute('lang', lang);
+    return this.translate.use(lang);
   }
 
   getCurrentLanguage(): string {

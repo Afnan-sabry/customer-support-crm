@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -75,6 +75,7 @@ export class PortalLoginComponent {
   private portalAuthService = inject(PortalAuthService);
   private router = inject(Router);
   protected languageService = inject(LanguageService);
+  private translate = inject(TranslateService);
 
   form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -101,7 +102,7 @@ export class PortalLoginComponent {
       },
       error: (err) => {
         this.loading = false;
-        this.error = err.error?.detail || err.error?.title || 'Login failed';
+        this.error = err.error?.detail || err.error?.title || this.translate.instant('portal.loginFailed');
       }
     });
   }

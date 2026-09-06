@@ -32,8 +32,9 @@ import { ChatWidgetComponent } from '../../shared/components/chat-widget/chat-wi
         </nav>
       }
       <span class="spacer"></span>
-      <button mat-icon-button (click)="toggleLanguage()">
+      <button mat-button (click)="toggleLanguage()">
         <mat-icon>language</mat-icon>
+        {{ languageLabel }}
       </button>
       @if (isAuthenticated) {
         <button mat-icon-button [matMenuTriggerFor]="userMenu">
@@ -72,6 +73,10 @@ export class PortalLayoutComponent {
 
   get isAuthenticated(): boolean {
     return this.portalAuthService.isAuthenticated();
+  }
+
+  get languageLabel(): string {
+    return this.languageService.getCurrentLanguage() === 'en' ? 'العربية' : 'English';
   }
 
   toggleLanguage(): void {
