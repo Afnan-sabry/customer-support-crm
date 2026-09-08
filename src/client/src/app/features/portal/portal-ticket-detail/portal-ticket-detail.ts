@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,7 +14,7 @@ import { PortalTicketService, PortalTicketDetailDto } from '../portal-ticket.ser
 @Component({
   selector: 'app-portal-ticket-detail',
   imports: [
-    RouterLink, ReactiveFormsModule, TranslateModule, DatePipe,
+    RouterLink, ReactiveFormsModule, FormsModule, TranslateModule, DatePipe,
     MatCardModule, MatButtonModule, MatIconModule, MatChipsModule, MatFormFieldModule, MatInputModule
   ],
   template: `
@@ -69,6 +69,36 @@ import { PortalTicketService, PortalTicketDetailDto } from '../portal-ticket.ser
           </form>
         </mat-card-content>
       </mat-card>
+
+      @if (isFinalStatus(ticket.statusName)) {
+        <mat-card class="feedback-card">
+          <mat-card-header>
+            <mat-card-title>{{ 'reports.csat.submitFeedback' | translate }}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            @if (feedbackSubmitted) {
+              <p class="feedback-thanks">{{ 'reports.csat.feedbackSubmitted' | translate }}</p>
+            } @else {
+              <div class="star-rating">
+                @for (star of [1, 2, 3, 4, 5]; track star) {
+                  <button mat-icon-button type="button" (click)="setRating(star)" [attr.aria-label]="star + ' stars'">
+                    <mat-icon>{{ star <= feedbackRating ? 'star' : 'star_border' }}</mat-icon>
+                  </button>
+                }
+              </div>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>{{ 'reports.csat.feedbackPlaceholder' | translate }}</mat-label>
+                <textarea matInput [(ngModel)]="feedbackComment" rows="3" [ngModelOptions]="{ standalone: true }"></textarea>
+              </mat-form-field>
+              <button mat-raised-button color="primary" type="button"
+                [disabled]="feedbackRating === 0 || submittingFeedback"
+                (click)="onSubmitFeedback()">
+                {{ 'reports.csat.submitFeedback' | translate }}
+              </button>
+            }
+          </mat-card-content>
+        </mat-card>
+      }
     }
   `,
   styles: [`
@@ -85,6 +115,10 @@ import { PortalTicketService, PortalTicketDetailDto } from '../portal-ticket.ser
     .no-comments { color: rgba(0,0,0,0.6); }
     .comment-form { margin-block-start: 16px; }
     .full-width { width: 100%; }
+    .feedback-card { margin-block-end: 16px; }
+    .star-rating { display: flex; gap: 4px; margin-block-end: 8px; }
+    .star-rating mat-icon { color: #fbc02d; }
+    .feedback-thanks { color: #2e7d32; font-weight: 500; }
   `]
 })
 export class PortalTicketDetailComponent implements OnInit {
@@ -94,6 +128,11 @@ export class PortalTicketDetailComponent implements OnInit {
 
   ticket: PortalTicketDetailDto | null = null;
   posting = false;
+
+  feedbackRating = 0;
+  feedbackComment = '';
+  feedbackSubmitted = false;
+  submittingFeedback = false;
 
   commentForm = this.fb.group({
     content: ['', [Validators.required]]
@@ -120,6 +159,27 @@ export class PortalTicketDetailComponent implements OnInit {
         this.loadTicket();
       },
       error: () => this.posting = false
+    });
+  }
+
+  isFinalStatus(statusName: string): boolean {
+    const lower = (statusName || '').toLowerCase();
+    return lower.includes('closed') || lower.includes('resolved') || lower.includes('مغلق') || lower.includes('تم الحل');
+  }
+
+  setRating(star: number): void {
+    this.feedbackRating = star;
+  }
+
+  onSubmitFeedback(): void {
+    if (!this.ticket || this.feedbackRating === 0) return;
+    this.submittingFeedback = true;
+    this.ticketService.submitFeedback(this.ticket.id, this.feedbackRating, this.feedbackComment || null).subscribe({
+      next: () => {
+        this.submittingFeedback = false;
+        this.feedbackSubmitted = true;
+      },
+      error: () => { this.submittingFeedback = false; }
     });
   }
 

@@ -30,7 +30,11 @@
     "next": "التالي",
     "close": "إغلاق",
     "yes": "نعم",
-    "no": "لا"
+    "no": "لا",
+    "export": "تصدير",
+    "csv": "CSV",
+    "excel": "Excel",
+    "pdf": "PDF"
   },
   "auth": {
     "login": "تسجيل الدخول",
@@ -148,7 +152,15 @@
     "overdue": "متأخرة",
     "refresh": "تحديث",
     "noTickets": "لا توجد تذاكر معينة",
-    "compliance": "الالتزام"
+    "compliance": "الالتزام",
+    "ticketTrends": "اتجاهات التذاكر (30 يوم)",
+    "categoryDistribution": "التذاكر المفتوحة حسب الفئة",
+    "priorityBreakdown": "التذاكر المفتوحة حسب الأولوية",
+    "channelVolume": "المحادثات حسب القناة",
+    "recentSlaBreaches": "خروقات اتفاقية مستوى الخدمة الأخيرة",
+    "breachType": "نوع الخرق",
+    "policy": "السياسة",
+    "minutesLate": "الدقائق المتأخرة"
   },
   "knowledge": {
     "title": "قاعدة المعرفة",
@@ -310,5 +322,115 @@
       "Rejected": "مرفوض",
       "AutoApplied": "تطبيق تلقائي"
     }
+  },
+  "reports": {
+    "title": "التقارير والتحليلات",
+    "dateRange": "النطاق الزمني",
+    "presets": {
+      "today": "اليوم",
+      "last7": "آخر 7 أيام",
+      "last30": "آخر 30 يوم",
+      "thisMonth": "هذا الشهر",
+      "thisQuarter": "هذا الربع"
+    },
+    "export": "تصدير",
+    "ticketVolume": {
+      "title": "حجم التذاكر",
+      "desc": "تتبع اتجاهات إنشاء التذاكر وحلها عبر الزمن",
+      "created": "المنشأة",
+      "resolved": "المحلولة",
+      "trend": "اتجاه الحجم",
+      "byCategory": "حسب الفئة",
+      "byPriority": "حسب الأولوية"
+    },
+    "slaPerformance": {
+      "title": "أداء اتفاقية مستوى الخدمة",
+      "desc": "مراقبة معدلات الامتثال للاستجابة الأولى والحل",
+      "firstResponse": "امتثال الاستجابة الأولى",
+      "resolution": "امتثال الحل",
+      "trend": "اتجاه الامتثال",
+      "breaches": "تفاصيل الخروقات",
+      "breachType": "نوع الخرق",
+      "policy": "السياسة",
+      "dueAt": "تاريخ الاستحقاق",
+      "breachedAt": "تاريخ الخرق",
+      "minutesLate": "الدقائق المتأخرة"
+    },
+    "agentPerformance": {
+      "title": "أداء الوكلاء",
+      "desc": "مقارنة إنتاجية الوكلاء وامتثالهم لاتفاقية مستوى الخدمة",
+      "agent": "الوكيل",
+      "handled": "التذاكر المعالجة",
+      "resolved": "المحلولة",
+      "avgResolution": "متوسط الحل (دقيقة)",
+      "avgFirstResponse": "متوسط الاستجابة الأولى (دقيقة)",
+      "slaCompliance": "الامتثال %",
+      "topPerformer": "أفضل أداء",
+      "ticketsPerAgent": "التذاكر لكل وكيل",
+      "timeComparison": "مقارنة الوقت"
+    },
+    "channelAnalytics": {
+      "title": "تحليل القنوات",
+      "desc": "تحليل حجم المحادثات وأوقات الاستجابة حسب القناة",
+      "channel": "القناة",
+      "conversations": "المحادثات",
+      "messages": "الرسائل",
+      "avgResponse": "متوسط الاستجابة (دقيقة)",
+      "distribution": "توزيع القنوات",
+      "volumeOverTime": "الحجم عبر الزمن"
+    },
+    "aiUsage": {
+      "title": "استخدام الذكاء الاصطناعي",
+      "desc": "تتبع استخدام اقتراحات الذكاء الاصطناعي ومعدلات القبول واستهلاك الرموز",
+      "type": "النوع",
+      "total": "الإجمالي",
+      "accepted": "المقبول",
+      "rejected": "المرفوض",
+      "pending": "معلق",
+      "acceptanceRate": "معدل القبول",
+      "avgConfidence": "متوسط الثقة",
+      "totalTokens": "إجمالي الرموز المستخدمة",
+      "byType": "الاقتراحات حسب النوع",
+      "tokenTrend": "اتجاه استخدام الرموز"
+    },
+    "csat": {
+      "title": "رضا العملاء",
+      "desc": "عرض تقييمات رضا العملاء والملاحظات",
+      "avgRating": "متوسط التقييم",
+      "totalResponses": "إجمالي الردود",
+      "ratingDistribution": "توزيع التقييمات",
+      "recentFeedback": "الملاحظات الأخيرة",
+      "rating": "التقييم",
+      "comment": "التعليق",
+      "submittedAt": "تاريخ التقديم",
+      "customer": "العميل",
+      "submitFeedback": "قيّم تجربتك",
+      "feedbackSubmitted": "شكراً لملاحظاتك!",
+      "feedbackPlaceholder": "أخبرنا عن تجربتك (اختياري)"
+    },
+    "noData": "لا توجد بيانات للفترة المحددة"
+  },
+  "integrations": {
+    "title": "التكاملات",
+    "webhookSubscriptions": "اشتراكات الويب هوك",
+    "createSubscription": "اشتراك جديد",
+    "editSubscription": "تعديل الاشتراك",
+    "name": "الاسم",
+    "url": "الرابط",
+    "secret": "المفتاح السري",
+    "generateSecret": "توليد المفتاح",
+    "events": "الأحداث",
+    "active": "نشط",
+    "event": "الحدث",
+    "statusCode": "رمز الحالة",
+    "success": "نجاح",
+    "attempt": "المحاولة",
+    "timestamp": "الوقت",
+    "deliveryLog": "سجل التسليم",
+    "loadMore": "تحميل المزيد",
+    "erpStatus": "تكامل ERP",
+    "provider": "المزود",
+    "connectionStatus": "الحالة",
+    "testSent": "تم إرسال اختبار الويب هوك"
   }
 }

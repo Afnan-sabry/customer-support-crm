@@ -10,6 +10,7 @@ using CustomerSupport.API.Middleware;
 using CustomerSupport.API.Hubs;
 using CustomerSupport.API.Services;
 using CustomerSupport.API.Services.Channels;
+using CustomerSupport.Infrastructure.Services.Integrations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +29,7 @@ builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.Configure<CustomerSupport.Infrastructure.Services.Ai.AiSettings>(
     builder.Configuration.GetSection("AiSettings"));
+builder.Services.Configure<ErpSettings>(builder.Configuration.GetSection("ErpSettings"));
 
 // JWT Authentication (dual scheme: Bearer for staff/agents, Portal for customer portal users)
 var jwtKey = new SymmetricSecurityKey(

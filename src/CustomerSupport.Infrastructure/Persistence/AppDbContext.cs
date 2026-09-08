@@ -46,6 +46,9 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
     public DbSet<NotificationTemplate> NotificationTemplates => Set<NotificationTemplate>();
     public DbSet<Notification> Notifications => Set<Notification>();
     public DbSet<AiSuggestion> AiSuggestions => Set<AiSuggestion>();
+    public DbSet<TicketFeedback> TicketFeedbacks => Set<TicketFeedback>();
+    public DbSet<WebhookSubscription> WebhookSubscriptions => Set<WebhookSubscription>();
+    public DbSet<WebhookDeliveryLog> WebhookDeliveryLogs => Set<WebhookDeliveryLog>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

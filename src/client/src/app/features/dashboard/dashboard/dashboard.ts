@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatCardModule } from '@angular/material/card';
@@ -8,12 +8,18 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { forkJoin } from 'rxjs';
 import {
   DashboardService,
   DashboardStatsDto,
   SlaSummaryDto,
-  AgentWorkloadDto
+  AgentWorkloadDto,
+  TicketTrendDto,
+  CategoryDistributionDto,
+  PriorityBreakdownDto,
+  ChannelVolumeDto,
+  SlaBreachDto
 } from '../dashboard.service';
 import { TicketDto } from '../../tickets/tickets.service';
 
@@ -27,9 +33,10 @@ interface StatCard {
 @Component({
   selector: 'app-dashboard',
   imports: [
-    RouterLink, TranslateModule, DatePipe,
+    RouterLink, TranslateModule, DatePipe, DecimalPipe,
     MatCardModule, MatIconModule, MatButtonModule,
-    MatTableModule, MatPaginatorModule, MatProgressBarModule
+    MatTableModule, MatPaginatorModule, MatProgressBarModule,
+    NgxChartsModule
   ],
   template: `
     <div class="dashboard-header">
@@ -158,6 +165,78 @@ interface StatCard {
         </table>
       </mat-card-content>
     </mat-card>
+
+    <div class="charts-grid">
+      <mat-card>
+        <mat-card-header><mat-card-title>{{ 'dashboard.ticketTrends' | translate }}</mat-card-title></mat-card-header>
+        <mat-card-content>
+          @if (trendLineData.length > 0) {
+            <ngx-charts-line-chart
+              [results]="trendLineData" [xAxis]="true" [yAxis]="true"
+              [legend]="true" [view]="[550, 250]" [autoScale]="true">
+            </ngx-charts-line-chart>
+          }
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-header><mat-card-title>{{ 'dashboard.categoryDistribution' | translate }}</mat-card-title></mat-card-header>
+        <mat-card-content>
+          @if (categoryPieData.length > 0) {
+            <ngx-charts-pie-chart [results]="categoryPieData" [legend]="true" [view]="[450, 250]"></ngx-charts-pie-chart>
+          }
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-header><mat-card-title>{{ 'dashboard.priorityBreakdown' | translate }}</mat-card-title></mat-card-header>
+        <mat-card-content>
+          @if (priorityBarData.length > 0) {
+            <ngx-charts-bar-horizontal [results]="priorityBarData" [xAxis]="true" [yAxis]="true" [view]="[450, 250]"></ngx-charts-bar-horizontal>
+          }
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-header><mat-card-title>{{ 'dashboard.channelVolume' | translate }}</mat-card-title></mat-card-header>
+        <mat-card-content>
+          @if (channelStackedData.length > 0) {
+            <ngx-charts-bar-vertical-stacked
+              [results]="channelStackedData" [xAxis]="true" [yAxis]="true"
+              [legend]="true" [view]="[550, 250]">
+            </ngx-charts-bar-vertical-stacked>
+          }
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    @if (recentBreaches.length > 0) {
+      <mat-card class="breaches-card">
+        <mat-card-header><mat-card-title>{{ 'dashboard.recentSlaBreaches' | translate }}</mat-card-title></mat-card-header>
+        <mat-card-content>
+          <table mat-table [dataSource]="recentBreaches" class="full-width">
+            <ng-container matColumnDef="ticketNumber">
+              <th mat-header-cell *matHeaderCellDef>{{ 'tickets.ticketNumber' | translate }}</th>
+              <td mat-cell *matCellDef="let b"><a [routerLink]="['/admin/tickets', b.ticketId]">{{ b.ticketNumber }}</a></td>
+            </ng-container>
+            <ng-container matColumnDef="breachType">
+              <th mat-header-cell *matHeaderCellDef>{{ 'dashboard.breachType' | translate }}</th>
+              <td mat-cell *matCellDef="let b">{{ b.breachType }}</td>
+            </ng-container>
+            <ng-container matColumnDef="policyName">
+              <th mat-header-cell *matHeaderCellDef>{{ 'dashboard.policy' | translate }}</th>
+              <td mat-cell *matCellDef="let b">{{ b.policyName }}</td>
+            </ng-container>
+            <ng-container matColumnDef="minutesLate">
+              <th mat-header-cell *matHeaderCellDef>{{ 'dashboard.minutesLate' | translate }}</th>
+              <td mat-cell *matCellDef="let b">{{ b.minutesLate | number:'1.0-0' }}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="breachColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: breachColumns;"></tr>
+          </table>
+        </mat-card-content>
+      </mat-card>
+    }
   `,
   styles: [`
     .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-block-end: 16px; }
@@ -175,6 +254,8 @@ interface StatCard {
     ::ng-deep .compliance-good .mdc-linear-progress__bar-inner { border-color: #4caf50 !important; }
     ::ng-deep .compliance-warn .mdc-linear-progress__bar-inner { border-color: #ff9800 !important; }
     ::ng-deep .compliance-bad .mdc-linear-progress__bar-inner { border-color: #f44336 !important; }
+    .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 16px; margin-block-end: 16px; }
+    .breaches-card { margin-block-end: 16px; }
   `]
 })
 export class DashboardComponent implements OnInit {
@@ -186,6 +267,18 @@ export class DashboardComponent implements OnInit {
   slaSummary: SlaSummaryDto | null = null;
   myTickets: TicketDto[] = [];
   teamWorkload: AgentWorkloadDto[] = [];
+
+  ticketTrends: TicketTrendDto[] = [];
+  categoryDistribution: CategoryDistributionDto[] = [];
+  priorityBreakdown: PriorityBreakdownDto[] = [];
+  channelVolume: ChannelVolumeDto[] = [];
+  recentBreaches: SlaBreachDto[] = [];
+  breachColumns = ['ticketNumber', 'breachType', 'policyName', 'minutesLate'];
+
+  trendLineData: any[] = [];
+  categoryPieData: any[] = [];
+  priorityBarData: any[] = [];
+  channelStackedData: any[] = [];
 
   myTicketsColumns = ['ticketNumber', 'subject', 'priorityName', 'statusName', 'createdAt'];
   teamWorkloadColumns = ['agentName', 'openTickets', 'overdueTickets'];
@@ -213,9 +306,14 @@ export class DashboardComponent implements OnInit {
       stats: this.dashboardService.getStats(),
       slaSummary: this.dashboardService.getSlaSummary(),
       myTickets: this.dashboardService.getMyTickets(this.myTicketsPage, this.myTicketsPageSize),
-      teamWorkload: this.dashboardService.getTeamWorkload()
+      teamWorkload: this.dashboardService.getTeamWorkload(),
+      ticketTrends: this.dashboardService.getTicketTrends(),
+      categoryDistribution: this.dashboardService.getCategoryDistribution(),
+      priorityBreakdown: this.dashboardService.getPriorityBreakdown(),
+      channelVolume: this.dashboardService.getChannelVolume(),
+      recentBreaches: this.dashboardService.getRecentSlaBreaches()
     }).subscribe({
-      next: ({ stats, slaSummary, myTickets, teamWorkload }) => {
+      next: ({ stats, slaSummary, myTickets, teamWorkload, ticketTrends, categoryDistribution, priorityBreakdown, channelVolume, recentBreaches }) => {
         this.stats = stats;
         this.slaSummary = slaSummary;
         this.myTickets = myTickets.items;
@@ -223,6 +321,27 @@ export class DashboardComponent implements OnInit {
         this.myTicketsPage = myTickets.page;
         this.myTicketsPageSize = myTickets.pageSize;
         this.teamWorkload = [...teamWorkload].sort((a, b) => b.openTickets - a.openTickets);
+
+        this.ticketTrends = ticketTrends;
+        this.trendLineData = [
+          { name: 'Created', series: ticketTrends.map(t => ({ name: t.date, value: t.createdCount })) },
+          { name: 'Resolved', series: ticketTrends.map(t => ({ name: t.date, value: t.resolvedCount })) }
+        ];
+        this.categoryDistribution = categoryDistribution;
+        this.categoryPieData = categoryDistribution.map(c => ({ name: c.categoryName, value: c.ticketCount }));
+        this.priorityBreakdown = priorityBreakdown;
+        this.priorityBarData = priorityBreakdown.map(p => ({ name: p.priorityName, value: p.ticketCount }));
+        this.channelVolume = channelVolume;
+        const channels = [...new Set(channelVolume.map(c => c.channel))];
+        const dates = [...new Set(channelVolume.map(c => c.date))].sort();
+        this.channelStackedData = dates.map(date => ({
+          name: date,
+          series: channels.map(ch => ({
+            name: ch,
+            value: channelVolume.find(c => c.date === date && c.channel === ch)?.conversationCount ?? 0
+          }))
+        }));
+        this.recentBreaches = recentBreaches;
         this.loading = false;
       },
       error: () => {

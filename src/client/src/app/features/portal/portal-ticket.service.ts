@@ -42,6 +42,10 @@ export class PortalTicketService extends PortalApiService {
     return this.post<PortalCommentDto>(`/v1/portal/tickets/${ticketId}/comments`, { content });
   }
 
+  submitFeedback(ticketId: string, rating: number, comment: string | null): Observable<unknown> {
+    return this.post<unknown>(`/v1/portal/tickets/${ticketId}/feedback`, { rating, comment });
+  }
+
   getCategories(): Observable<TicketCategoryDto[]> {
     return this.get<TicketCategoryDto[]>('/v1/tickets/categories');
   }

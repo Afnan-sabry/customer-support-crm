@@ -48,6 +48,14 @@ export const routes: Routes = [
         path: 'chat',
         loadChildren: () => import('./features/chat/chat.routes').then(m => m.chatRoutes)
       },
+      {
+        path: 'reports',
+        loadChildren: () => import('./features/reports/reports.routes').then(m => m.reportsRoutes)
+      },
+      {
+        path: 'integrations',
+        loadChildren: () => import('./features/integrations/integrations.routes').then(m => m.integrationsRoutes)
+      },
     ]
   },
   {
